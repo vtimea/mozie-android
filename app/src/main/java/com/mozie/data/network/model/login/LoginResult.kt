@@ -1,4 +1,4 @@
-package com.mozie.data.network.model
+package com.mozie.data.network.model.login
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

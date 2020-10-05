@@ -18,8 +18,9 @@ import com.mozie.ui.tabMovies.MoviesFragment
 import com.mozie.ui.tabProfile.ProfileFragment
 import com.mozie.ui.tabSchedule.ScheduleFragment
 import com.mozie.ui.tabTickets.TicketsFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 

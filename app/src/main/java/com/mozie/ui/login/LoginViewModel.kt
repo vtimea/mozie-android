@@ -3,11 +3,12 @@ package com.mozie.ui.login
 import android.content.Context
 import android.content.res.Resources
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mozie.R
 import com.mozie.data.DataManager
-import com.mozie.data.network.model.LoginResult
+import com.mozie.data.network.model.login.LoginResult
 import com.mozie.data.network.utils.Callback
 import com.mozie.ui.Event
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -19,10 +20,14 @@ class LoginViewModel @ViewModelInject constructor(
 ) :
     ViewModel() {
 
-    val loginError = MutableLiveData<Event<String>>()
-    val loginSuccess = MutableLiveData<Event<String>>()
+    val loginError: LiveData<Event<String>> by this::mLoginError
+    val loginSuccess: LiveData<Event<String>> by this::mLoginSuccess
+
+    private val mLoginError = MutableLiveData<Event<String>>()
+    private val mLoginSuccess = MutableLiveData<Event<String>>()
     private val disposables: MutableList<Disposable> = mutableListOf()
     private val resources: Resources = context.resources
+
 
     fun login(userId: String?, accessToken: String?) {
         if (userId == null || accessToken == null) {
@@ -63,11 +68,11 @@ class LoginViewModel @ViewModelInject constructor(
                 ErrorTypes.NetworkError -> resources.getString(R.string.error_login_network)
                 ErrorTypes.Unknown -> resources.getString(R.string.error_login_unknown)
             }
-        loginError.value = Event(msg)
+        mLoginError.value = Event(msg)
     }
 
     private fun onLoginSuccess() {
-        loginSuccess.value = Event(resources.getString(R.string.login_success))
+        mLoginSuccess.value = Event(resources.getString(R.string.login_success))
     }
 
     private enum class ErrorTypes {
