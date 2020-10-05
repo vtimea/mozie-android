@@ -2,7 +2,15 @@
     <string name="app_name">Mozie</string>
     <string name="login_description">Valami szöveg ide arról hogy milyen frankó ez az app és miért kell bejelentkezni ahhoz hogy használd.</string>
     <string name="login_success">Sikeres bejelentkezés.</string>
+
+    <!-- Errors -->
     <string name="error_login_unknown">Hiba történt a bejelentkezés közben.</string>
     <string name="error_login_network">Szerver hiba.</string>
     <string name="error_login_facebook">Facebook error.</string>
+
+    <!-- Tab titles -->
+    <string name="menu_title_movies">Filmek</string>
+    <string name="menu_title_schedule">Műsor</string>
+    <string name="menu_title_tickets">Jegyek</string>
+    <string name="menu_title_profile">Profil</string>
 </resources>

@@ -10,4 +10,6 @@
     <dimen name="margin_medium">20dp</dimen>
     <dimen name="margin_large">24dp</dimen>
     <dimen name="margin_extra_large">40dp</dimen>
+
+    <dimen name="tablayout_elevation">5dp</dimen>
 </resources>
