@@ -1,46 +1,86 @@
 package com.mozie.ui.login
 
+import android.content.Context
+import android.content.res.Resources
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mozie.data.network.NetworkHelper
+import com.mozie.R
+import com.mozie.data.DataManager
 import com.mozie.data.network.model.LoginResult
 import com.mozie.data.network.utils.Callback
-import com.mozie.data.prefs.PrefsHelper
+import com.mozie.ui.Event
+import dagger.hilt.android.qualifiers.ApplicationContext
+import io.reactivex.disposables.Disposable
 
 class LoginViewModel @ViewModelInject constructor(
-    private val prefsHelper: PrefsHelper,
-    private val networkHelper: NetworkHelper
+    private val dataManager: DataManager,
+    @ApplicationContext private val context: Context
 ) :
     ViewModel() {
-    private var mNavigator: LoginNavigator? = null
+
+    val loginError = MutableLiveData<Event<String>>()
+    val loginSuccess = MutableLiveData<Event<String>>()
+    private val disposables: MutableList<Disposable> = mutableListOf()
+    private val resources: Resources = context.resources
 
     fun login(userId: String?, accessToken: String?) {
         if (userId == null || accessToken == null) {
-            getNavigator()?.handleError("")
+            onError(ErrorTypes.FacebookError)
             return
         }
-        networkHelper.login(userId, accessToken, object : Callback<LoginResult>() {
-            override fun returnResult(t: LoginResult) {
-                val token: String? = t.token
-                if (token == null) {
-                    getNavigator()?.handleError("")
-                    return
-                }
-                prefsHelper.saveAccessToken(token)
-                getNavigator()?.loginSuccess()
-            }
+        disposables.add(
+            dataManager.networkHelper.login(
+                userId,
+                accessToken,
+                object : Callback<LoginResult>() {
+                    override fun returnResult(t: LoginResult) {
+                        val token: String? = t.token
+                        if (token == null) {
+                            onError(ErrorTypes.Unknown)
+                            return
+                        }
+                        dataManager.prefsHelper.saveAccessToken(token)
+                        onLoginSuccess()
+                    }
 
-            override fun returnError(t: Throwable) {
-                getNavigator()?.handleError("")
-            }
-        })
+                    override fun returnError(t: Throwable) {
+                        onError(ErrorTypes.NetworkError)
+                    }
+                })
+        )
     }
 
-    fun getNavigator(): LoginNavigator? {
-        return mNavigator
+    fun onFacebookError() {
+        onError(ErrorTypes.FacebookError)
     }
 
-    fun setNavigator(navigator: LoginNavigator) {
-        mNavigator = navigator
+    private fun onError(errorType: ErrorTypes) {
+        val msg: String =
+            when (errorType) {
+                ErrorTypes.FacebookError -> resources.getString(R.string.error_login_facebook)
+                ErrorTypes.NetworkError -> resources.getString(R.string.error_login_network)
+                ErrorTypes.Unknown -> resources.getString(R.string.error_login_unknown)
+            }
+        loginError.value = Event(msg)
+    }
+
+    private fun onLoginSuccess() {
+        loginSuccess.value = Event(resources.getString(R.string.login_success))
+    }
+
+    private enum class ErrorTypes {
+        FacebookError,
+        NetworkError,
+        Unknown
+    }
+
+    override fun onCleared() {
+        for (d in disposables) {
+            if (!d.isDisposed) {
+                d.dispose()
+            }
+        }
+        super.onCleared()
     }
 }

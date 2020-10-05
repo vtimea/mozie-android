@@ -15,14 +15,14 @@ import com.mozie.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LoginActivity : AppCompatActivity(), LoginNavigator {
+class LoginActivity : AppCompatActivity() {
     private val callbackManager: CallbackManager = CallbackManager.Factory.create()
     private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        viewModel.setNavigator(this) // todo inject
+        initObservers()
 
         LoginManager.getInstance().registerCallback(callbackManager,
             object : FacebookCallback<LoginResult?> {
@@ -38,7 +38,7 @@ class LoginActivity : AppCompatActivity(), LoginNavigator {
                 }
 
                 override fun onError(exception: FacebookException) {
-                    // todo
+                    viewModel.onFacebookError()
                 }
             })
     }
@@ -48,13 +48,30 @@ class LoginActivity : AppCompatActivity(), LoginNavigator {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    override fun loginSuccess() {
-        Toast.makeText(this, "Login successful.", Toast.LENGTH_SHORT).show()
-        startActivity(Intent(this, MainActivity::class.java))
+    private fun initObservers() {
+        viewModel.loginError.observe(this, { event ->
+            event?.getContentIfNotHandledOrReturnNull()?.let {
+                handleLoginError(it)
+            }
+        })
+
+        viewModel.loginSuccess.observe(this, { event ->
+            event.getContentIfNotHandledOrReturnNull()?.let {
+                handleLoginSuccess(it)
+            }
+        })
     }
 
-    override fun handleError(message: String) {
+    private fun handleLoginSuccess(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun handleLoginError(message: String) {
         LoginManager.getInstance().logOut()
-        Toast.makeText(this, "Something went wrong.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
