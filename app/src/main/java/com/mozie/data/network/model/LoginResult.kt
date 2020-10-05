@@ -7,4 +7,8 @@ class LoginResult {
     @SerializedName("token")
     @Expose
     val token: String? = null
+
+    @SerializedName("expiration")
+    @Expose
+    val expiration: String? = null
 }

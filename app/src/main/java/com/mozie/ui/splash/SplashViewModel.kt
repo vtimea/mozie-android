@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mozie.data.DataManager
 import com.mozie.ui.Event
+import org.joda.time.DateTime
 
 class SplashViewModel @ViewModelInject constructor(
     private val dataManager: DataManager
@@ -14,8 +15,9 @@ class SplashViewModel @ViewModelInject constructor(
 
     fun onApplicationStarted() {
         val accessToken = dataManager.prefsHelper.getAccessToken()
-        // TODO handle expiration
-        if (accessToken == null) {
+        val expiration = dataManager.prefsHelper.getAccessTokenExpiration()
+        if (accessToken == null || expiration == null || DateTime(expiration).isBeforeNow) {
+            dataManager.prefsHelper.clearAccessToken()
             navigationEvent.value = Event(Destinations.Login)
         } else {
             navigationEvent.value = Event(Destinations.Home)

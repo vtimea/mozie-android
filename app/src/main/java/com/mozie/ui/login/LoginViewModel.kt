@@ -36,11 +36,12 @@ class LoginViewModel @ViewModelInject constructor(
                 object : Callback<LoginResult>() {
                     override fun returnResult(t: LoginResult) {
                         val token: String? = t.token
-                        if (token == null) {
+                        val expiration: String? = t.expiration
+                        if (token == null || expiration == null) {
                             onError(ErrorTypes.Unknown)
                             return
                         }
-                        dataManager.prefsHelper.saveAccessToken(token)
+                        dataManager.prefsHelper.saveAccessToken(token, expiration)
                         onLoginSuccess()
                     }
 
