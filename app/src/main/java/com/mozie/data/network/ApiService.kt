@@ -17,6 +17,6 @@ interface ApiService {
     @GET("/api/movies/{id}")
     fun getMovieDetails(
         @Header("Authorization") token: String,
-        @Query("id") id: String
+        @Path("id") id: String
     ): Observable<MovieDetail>
 }

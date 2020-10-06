@@ -44,20 +44,20 @@ class HomeActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
             when (position) {
                 0 -> {
-                    tab.icon = ContextCompat.getDrawable(this, R.drawable.ic_baseline_theaters_24)
+                    tab.icon = ContextCompat.getDrawable(this, R.drawable.ic_baseline_theaters)
                     tab.text = getString(R.string.menu_title_movies)
                 }
                 1 -> {
-                    tab.icon = ContextCompat.getDrawable(this, R.drawable.ic_baseline_date_range_24)
+                    tab.icon = ContextCompat.getDrawable(this, R.drawable.ic_baseline_date_range)
                     tab.text = getString(R.string.menu_title_schedule)
                 }
                 2 -> {
-                    tab.icon = ContextCompat.getDrawable(this, R.drawable.ic_qr_code_2_24px)
+                    tab.icon = ContextCompat.getDrawable(this, R.drawable.ic_baseline_qrcode)
                     tab.text = getString(R.string.menu_title_tickets)
                 }
                 else -> {
                     tab.icon =
-                        ContextCompat.getDrawable(this, R.drawable.ic_baseline_person_outline_24)
+                        ContextCompat.getDrawable(this, R.drawable.ic_baseline_person_outline)
                     tab.text = getString(R.string.menu_title_profile)
                 }
             }

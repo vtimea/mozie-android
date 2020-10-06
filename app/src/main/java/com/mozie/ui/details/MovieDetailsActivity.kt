@@ -1,9 +1,11 @@
 package com.mozie.ui.details
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
+import com.mozie.R
 import com.mozie.data.network.model.movies.MovieDetail
 import com.mozie.databinding.ActivityMovieDetailsBinding
 import com.mozie.ui.details.MovieDetailsActivity.KEYS.KEY_MOVIE_ID
@@ -25,6 +27,10 @@ class MovieDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMovieDetailsBinding.inflate(layoutInflater)
         val view = binding.root
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         setContentView(view)
         initViews()
         initObservers()
@@ -35,8 +41,8 @@ class MovieDetailsActivity : AppCompatActivity() {
 
     private fun initViews() {
         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-        ft.add(detailsFragment, "det")
-        ft.add(loadingFragment, "loading")
+        ft.add(R.id.fragment, detailsFragment)
+        ft.add(R.id.fragment, loadingFragment)
         ft.commit()
         showLoadingFragment()
     }
@@ -48,18 +54,22 @@ class MovieDetailsActivity : AppCompatActivity() {
     }
 
     private fun showDetailsFragment(movie: MovieDetail) {
-        //todo refactor to navgraph
         val ft = supportFragmentManager.beginTransaction()
+        detailsFragment.loadDetails(movie)
         ft.hide(loadingFragment)
         ft.show(detailsFragment)
         ft.commit()
     }
 
     private fun showLoadingFragment() {
-        //todo refactor to navgraph
         val ft = supportFragmentManager.beginTransaction()
         ft.hide(detailsFragment)
         ft.show(loadingFragment)
         ft.commit()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.no_change, R.anim.slide_down)
     }
 }
