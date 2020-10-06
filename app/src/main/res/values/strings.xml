@@ -19,4 +19,7 @@
     <string name="title_recommeneded">Neked ajánlott</string>
     <string name="title_soon">Hamarosan</string>
     <string name="title_now">Már műsoron</string>
+    <string name="button_ticket_purchasing">JEGYVÁSÁRLÁS</string>
+    <string name="title_description">Leírás</string>
+    <string name="title_actors">Szereplők</string>
 </resources>

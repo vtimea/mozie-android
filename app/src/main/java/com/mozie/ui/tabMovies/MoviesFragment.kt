@@ -1,5 +1,6 @@
 package com.mozie.ui.tabMovies
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +13,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.mozie.R
 import com.mozie.data.network.model.movies.FeaturedMovie
 import com.mozie.databinding.FragmentMoviesBinding
+import com.mozie.ui.details.MovieDetailsActivity
+import com.mozie.ui.details.MovieDetailsActivity.KEYS.KEY_MOVIE_ID
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -93,10 +97,13 @@ class MoviesFragment : Fragment(), ItemClickListener<FeaturedMovie> {
                 Toast.LENGTH_SHORT
             ).show()
         })
+        viewModel.navEvent.observe(viewLifecycleOwner, {
+            navigateToDetails(it.getContentIfNotHandledOrReturnNull())
+        })
     }
 
     override fun onItemClicked(item: FeaturedMovie) {
-        Toast.makeText(context, "${item.title} clicked!", Toast.LENGTH_SHORT).show()
+        viewModel.onPosterClicked(item)
     }
 
     private fun showMovieLayout(isEmpty: Boolean, tvTitle: TextView, rvList: RecyclerView) {
@@ -107,5 +114,14 @@ class MoviesFragment : Fragment(), ItemClickListener<FeaturedMovie> {
         }
         tvTitle.visibility = visibility
         rvList.visibility = visibility
+    }
+
+    private fun navigateToDetails(movieId: String?) {
+        movieId?.let {
+            val intent = Intent(activity, MovieDetailsActivity::class.java)
+            intent.putExtra(KEY_MOVIE_ID, movieId)
+            startActivity(intent)
+            requireActivity().overridePendingTransition(R.anim.slide_up, R.anim.no_change)
+        }
     }
 }

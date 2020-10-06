@@ -10,4 +10,8 @@
     <dimen name="margin_medium">18dp</dimen>
     <dimen name="margin_large">22dp</dimen>
     <dimen name="margin_extra_large">37dp</dimen>
+
+    <dimen name="actor_poster_height">90dp</dimen>
+    <dimen name="poster_height">230dp</dimen>
+    <dimen name="detail_image_height">275dp</dimen>
 </resources>

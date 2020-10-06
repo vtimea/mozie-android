@@ -3,14 +3,14 @@ package com.mozie.ui.splash
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.mozie.data.DataManager
 import com.mozie.ui.Event
+import com.mozie.ui.base.BaseViewModel
 import org.joda.time.DateTime
 
 class SplashViewModel @ViewModelInject constructor(
     private val dataManager: DataManager
-) : ViewModel() {
+) : BaseViewModel() {
 
     val navigationEvent: LiveData<Event<Destinations>> by this::mNavigationEvent
 

@@ -3,9 +3,13 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#35303D</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="colorAction">#DA4167</color>
 
     <color name="colorActiveTab">#FFFFFF</color>
     <color name="colorInactiveTab">#80FBFBFB</color>
 
     <color name="colorShimmer">#636363</color>
+
+    <color name="colorTextPrimary">#FFFFFF</color>
+    <color name="colorTextSecondary">#9F9F9F</color>
 </resources>

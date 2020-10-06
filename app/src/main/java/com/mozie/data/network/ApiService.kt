@@ -2,12 +2,10 @@ package com.mozie.data.network
 
 import com.mozie.data.network.model.login.LoginBody
 import com.mozie.data.network.model.login.LoginResult
+import com.mozie.data.network.model.movies.MovieDetail
 import com.mozie.data.network.model.movies.MoviesResponse
 import io.reactivex.Observable
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiService {
     @POST("/auth/login")
@@ -15,4 +13,10 @@ interface ApiService {
 
     @GET("/api/movies")
     fun getAllMovies(@Header("Authorization") token: String): Observable<MoviesResponse>
+
+    @GET("/api/movies/{id}")
+    fun getMovieDetails(
+        @Header("Authorization") token: String,
+        @Query("id") id: String
+    ): Observable<MovieDetail>
 }

@@ -57,6 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/poster_height"
                     android:layout_marginTop="@dimen/margin_small"
+                    app:auto_start="true"
                     app:layout_constraintTop_toBottomOf="@id/tvRecommended">
 
                     <LinearLayout
@@ -101,6 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/poster_height"
                     android:layout_marginTop="@dimen/margin_small"
+                    app:auto_start="true"
                     app:layout_constraintTop_toBottomOf="@id/tvSoon">
 
                     <LinearLayout
@@ -146,6 +148,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/poster_height"
                     android:layout_marginTop="@dimen/margin_small"
+                    app:auto_start="true"
                     app:layout_constraintTop_toBottomOf="@id/tvNow">
 
                     <LinearLayout

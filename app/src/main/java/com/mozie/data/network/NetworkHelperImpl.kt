@@ -2,6 +2,7 @@ package com.mozie.data.network
 
 import com.mozie.data.network.model.login.LoginBody
 import com.mozie.data.network.model.login.LoginResult
+import com.mozie.data.network.model.movies.MovieDetail
 import com.mozie.data.network.model.movies.MoviesResponse
 import com.mozie.data.network.utils.Callback
 import com.mozie.data.network.utils.DefaultObserver
@@ -32,6 +33,19 @@ class NetworkHelperImpl @Inject constructor() : NetworkHelper {
     override fun getAllMovies(accessToken: String, callback: Callback<MoviesResponse>): Disposable {
         val observer = DefaultObserver(callback)
         apiService.getAllMovies(accessToken)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(observer)
+        return observer.disposable!!
+    }
+
+    override fun getMovieDetails(
+        accessToken: String,
+        movieId: String,
+        callback: Callback<MovieDetail>
+    ): Disposable {
+        val observer = DefaultObserver(callback)
+        apiService.getMovieDetails(accessToken, movieId)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(observer)
