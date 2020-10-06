@@ -60,20 +60,27 @@ class MoviesFragment : Fragment(), ItemClickListener<Movie> {
         shimmer(true, binding.shimmerRecommended)
         shimmer(true, binding.shimmerSoon)
         shimmer(true, binding.shimmerNow)
+
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.getMovies()
+        }
     }
 
     private fun initObservers() {
         viewModel.moviesRecommended.observe(viewLifecycleOwner, { movies ->
+            binding.swipeRefresh.isRefreshing = false
             binding.rvRecommended.adapter = RvAdapter(movies, this)
             showMovieLayout(movies.isEmpty(), binding.tvRecommended, binding.rvRecommended)
             shimmer(false, binding.shimmerRecommended)
         })
         viewModel.moviesNow.observe(viewLifecycleOwner, { movies ->
+            binding.swipeRefresh.isRefreshing = false
             binding.rvNow.adapter = RvAdapter(movies, this)
             showMovieLayout(movies.isEmpty(), binding.tvNow, binding.rvNow)
             shimmer(false, binding.shimmerNow)
         })
         viewModel.moviesSoon.observe(viewLifecycleOwner, { movies ->
+            binding.swipeRefresh.isRefreshing = false
             binding.rvSoon.adapter = RvAdapter(movies, this)
             showMovieLayout(movies.isEmpty(), binding.tvSoon, binding.rvSoon)
             shimmer(false, binding.shimmerSoon)

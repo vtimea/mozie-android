@@ -16,144 +16,150 @@
         app:title="Filmek"
         app:titleTextColor="@android:color/white" />
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/tvRecommended"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:text="@string/title_recommeneded"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:background="@color/colorPrimaryDark">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvRecommended"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/poster_height"
-                android:layout_marginTop="@dimen/margin_small"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/tvRecommended"
-                tools:listitem="@layout/item_movies" />
+                <TextView
+                    android:id="@+id/tvRecommended"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_small"
+                    android:text="@string/title_recommeneded"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmerRecommended"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/poster_height"
-                android:layout_marginTop="@dimen/margin_small"
-                app:layout_constraintTop_toBottomOf="@id/tvRecommended">
-
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvRecommended"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="@dimen/poster_height"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/tvRecommended"
+                    tools:listitem="@layout/item_movies" />
 
-                    <include layout="@layout/item_movies_shimmer" />
-
-                    <include layout="@layout/item_movies_shimmer" />
-
-                    <include layout="@layout/item_movies_shimmer" />
-
-                </LinearLayout>
-
-
-            </com.facebook.shimmer.ShimmerFrameLayout>
-
-            <TextView
-                android:id="@+id/tvSoon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:text="@string/title_soon"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rvRecommended" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvSoon"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/poster_height"
-                android:layout_marginTop="@dimen/margin_small"
-                app:layout_constraintTop_toBottomOf="@id/tvSoon"
-                tools:listitem="@layout/item_movies" />
-
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmerSoon"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/poster_height"
-                android:layout_marginTop="@dimen/margin_small"
-                app:layout_constraintTop_toBottomOf="@id/tvSoon">
-
-                <LinearLayout
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerRecommended"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="@dimen/poster_height"
+                    android:layout_marginTop="@dimen/margin_small"
+                    app:layout_constraintTop_toBottomOf="@id/tvRecommended">
 
-                    <include layout="@layout/item_movies_shimmer" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
-                    <include layout="@layout/item_movies_shimmer" />
+                        <include layout="@layout/item_movies_shimmer" />
 
-                    <include layout="@layout/item_movies_shimmer" />
+                        <include layout="@layout/item_movies_shimmer" />
 
-                </LinearLayout>
+                        <include layout="@layout/item_movies_shimmer" />
+
+                    </LinearLayout>
 
 
-            </com.facebook.shimmer.ShimmerFrameLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
-            <TextView
-                android:id="@+id/tvNow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:text="@string/title_now"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rvSoon" />
+                <TextView
+                    android:id="@+id/tvSoon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_small"
+                    android:text="@string/title_soon"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rvRecommended" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvNow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:overScrollMode="never"
-                app:layout_constraintTop_toBottomOf="@id/tvNow"
-                tools:listitem="@layout/item_movies" />
-
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmerNow"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/poster_height"
-                android:layout_marginTop="@dimen/margin_small"
-                app:layout_constraintTop_toBottomOf="@id/tvNow">
-
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSoon"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="@dimen/poster_height"
+                    android:layout_marginTop="@dimen/margin_small"
+                    app:layout_constraintTop_toBottomOf="@id/tvSoon"
+                    tools:listitem="@layout/item_movies" />
 
-                    <include layout="@layout/item_movies_shimmer" />
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerSoon"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/poster_height"
+                    android:layout_marginTop="@dimen/margin_small"
+                    app:layout_constraintTop_toBottomOf="@id/tvSoon">
 
-                    <include layout="@layout/item_movies_shimmer" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
-                </LinearLayout>
+                        <include layout="@layout/item_movies_shimmer" />
+
+                        <include layout="@layout/item_movies_shimmer" />
+
+                        <include layout="@layout/item_movies_shimmer" />
+
+                    </LinearLayout>
 
 
-            </com.facebook.shimmer.ShimmerFrameLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+                <TextView
+                    android:id="@+id/tvNow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_small"
+                    android:text="@string/title_now"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rvSoon" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvNow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:overScrollMode="never"
+                    app:layout_constraintTop_toBottomOf="@id/tvNow"
+                    tools:listitem="@layout/item_movies" />
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerNow"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/poster_height"
+                    android:layout_marginTop="@dimen/margin_small"
+                    app:layout_constraintTop_toBottomOf="@id/tvNow">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <include layout="@layout/item_movies_shimmer" />
+
+                        <include layout="@layout/item_movies_shimmer" />
+
+                    </LinearLayout>
+
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>
