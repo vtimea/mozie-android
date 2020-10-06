@@ -6,4 +6,6 @@
 
     <color name="colorActiveTab">#FFFFFF</color>
     <color name="colorInactiveTab">#80FBFBFB</color>
+
+    <color name="colorShimmer">#636363</color>
 </resources>

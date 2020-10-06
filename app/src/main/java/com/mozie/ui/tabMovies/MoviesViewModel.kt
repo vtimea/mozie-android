@@ -39,7 +39,6 @@ class MoviesViewModel @ViewModelInject constructor(private val dataManager: Data
     }
 
     private fun handleError() {
-        //todo msg
-        mNetworkError.value = Event("Network error")
+        mNetworkError.value = Event("Hálózati hiba.")
     }
 }

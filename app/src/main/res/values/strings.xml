@@ -13,4 +13,9 @@
     <string name="menu_title_schedule">Műsor</string>
     <string name="menu_title_tickets">Jegyek</string>
     <string name="menu_title_profile">Profil</string>
+
+    <!-- Movies tab -->
+    <string name="title_recommeneded">Neked ajánlott</string>
+    <string name="title_soon">Hamarosan</string>
+    <string name="title_now">Már műsoron</string>
 </resources>
