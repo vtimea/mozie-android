@@ -29,10 +29,10 @@
                     android:id="@+id/tvTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_large"
                     android:background="@color/colorShimmer"
-                    android:ems="6"
+                    android:ems="9"
                     android:textSize="@dimen/text_size_large"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -42,35 +42,48 @@
                     android:id="@+id/tvGenre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginTop="@dimen/tablayout_elevation"
                     android:background="@color/colorShimmer"
-                    android:ems="4"
+                    android:ems="5"
                     android:textColor="@color/colorTextSecondary"
                     android:textSize="@dimen/text_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
                 <TextView
+                    android:id="@+id/tvLength"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/tablayout_elevation"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:background="@color/colorShimmer"
+                    android:ems="3"
+                    android:textColor="@color/colorTextSecondary"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvGenre" />
+
+                <TextView
                     android:id="@+id/tvDescriptionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_large"
                     android:text="@string/title_description"
                     android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvGenre" />
+                    app:layout_constraintTop_toBottomOf="@id/tvLength" />
 
                 <TextView
                     android:id="@+id/tvDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginHorizontal="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_small"
                     android:background="@color/colorShimmer"
-                    android:lines="5"
+                    android:lines="7"
                     app:layout_constraintTop_toBottomOf="@id/tvDescriptionTitle" />
 
                 <View
@@ -83,6 +96,7 @@
     </ScrollView>
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
@@ -92,6 +106,7 @@
         app:contentInsetStart="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_marginHorizontal="@dimen/margin_medium"

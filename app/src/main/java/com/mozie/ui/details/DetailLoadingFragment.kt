@@ -5,20 +5,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.facebook.shimmer.ShimmerFrameLayout
-import com.mozie.R
+import com.mozie.databinding.FragmentMovieDetailsShimmerBinding
 
 class DetailLoadingFragment : Fragment() {
+    private lateinit var binding: FragmentMovieDetailsShimmerBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_movie_details_shimmer, container, false)
+        binding = FragmentMovieDetailsShimmerBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<ShimmerFrameLayout>(R.id.shimmerLayout).startShimmerAnimation()
+        initViews()
+    }
+
+    private fun initViews() {
+        binding.btnClose.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+        binding.shimmerLayout.startShimmerAnimation()
     }
 }

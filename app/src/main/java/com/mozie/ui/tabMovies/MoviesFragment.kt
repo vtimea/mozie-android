@@ -42,7 +42,14 @@ class MoviesFragment : Fragment(), ItemClickListener<FeaturedMovie> {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         initObservers()
-        viewModel.getMovies()
+        loadMovies()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (viewModel.moviesNow.value.isNullOrEmpty()) {
+            loadMovies()
+        }
     }
 
     private fun shimmer(play: Boolean, layout: ShimmerFrameLayout) {
@@ -61,12 +68,9 @@ class MoviesFragment : Fragment(), ItemClickListener<FeaturedMovie> {
         binding.rvSoon.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.rvNow.layoutManager = GridLayoutManager(context, 2)
-        shimmer(true, binding.shimmerRecommended)
-        shimmer(true, binding.shimmerSoon)
-        shimmer(true, binding.shimmerNow)
 
         binding.swipeRefresh.setOnRefreshListener {
-            viewModel.getMovies()
+            loadMovies()
         }
     }
 
@@ -123,5 +127,14 @@ class MoviesFragment : Fragment(), ItemClickListener<FeaturedMovie> {
             startActivity(intent)
             requireActivity().overridePendingTransition(R.anim.slide_up, R.anim.no_change)
         }
+    }
+
+    private fun loadMovies() {
+        if (viewModel.moviesNow.value.isNullOrEmpty()) {
+            shimmer(true, binding.shimmerRecommended)
+            shimmer(true, binding.shimmerSoon)
+            shimmer(true, binding.shimmerNow)
+        }
+        viewModel.getMovies()
     }
 }
