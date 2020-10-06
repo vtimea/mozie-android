@@ -6,13 +6,13 @@ import com.google.gson.annotations.SerializedName
 class MoviesResponse {
     @SerializedName("recommended")
     @Expose
-    val recommended: MutableList<Movie>? = null
+    val recommended: MutableList<FeaturedMovie>? = null
 
     @SerializedName("now")
     @Expose
-    val now: MutableList<Movie>? = null
+    val now: MutableList<FeaturedMovie>? = null
 
     @SerializedName("soon")
     @Expose
-    val soon: MutableList<Movie>? = null
+    val soon: MutableList<FeaturedMovie>? = null
 }

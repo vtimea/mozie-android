@@ -6,25 +6,25 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.mozie.R
-import com.mozie.data.network.model.movies.Movie
+import com.mozie.data.network.model.movies.FeaturedMovie
 import com.squareup.picasso.Picasso
 
 class RvAdapter(
-    private val items: List<Movie>,
-    private var itemClickListener: ItemClickListener<Movie>? = null
+    private val items: List<FeaturedMovie>,
+    private var itemClickListener: ItemClickListener<FeaturedMovie>? = null
 ) : RecyclerView.Adapter<RvAdapter.ItemViewHolder>() {
 
     inner class ItemViewHolder internal constructor(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         private val imageView: ImageView = itemView.findViewById(R.id.image)
 
-        fun init(movie: Movie) {
-            val url: String? = movie.posterUrl
+        fun init(featuredMovie: FeaturedMovie) {
+            val url: String? = featuredMovie.posterUrl
             if (url != null && url.isNotBlank()) {
                 Picasso.get().load(url).into(imageView)
             }
             imageView.setOnClickListener {
-                itemClickListener?.onItemClicked(movie)
+                itemClickListener?.onItemClicked(featuredMovie)
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.mozie.ui.main
+package com.mozie.ui.home
 
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -13,7 +13,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mozie.R
-import com.mozie.databinding.ActivityMainBinding
+import com.mozie.databinding.ActivityHomeBinding
 import com.mozie.ui.tabMovies.MoviesFragment
 import com.mozie.ui.tabProfile.ProfileFragment
 import com.mozie.ui.tabSchedule.ScheduleFragment
@@ -21,12 +21,12 @@ import com.mozie.ui.tabTickets.TicketsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class HomeActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
         initView()

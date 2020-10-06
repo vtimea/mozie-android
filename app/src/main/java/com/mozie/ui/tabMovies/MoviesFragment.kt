@@ -12,12 +12,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.shimmer.ShimmerFrameLayout
-import com.mozie.data.network.model.movies.Movie
+import com.mozie.data.network.model.movies.FeaturedMovie
 import com.mozie.databinding.FragmentMoviesBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MoviesFragment : Fragment(), ItemClickListener<Movie> {
+class MoviesFragment : Fragment(), ItemClickListener<FeaturedMovie> {
     private lateinit var binding: FragmentMoviesBinding
     private val viewModel: MoviesViewModel by viewModels()
 
@@ -95,7 +95,7 @@ class MoviesFragment : Fragment(), ItemClickListener<Movie> {
         })
     }
 
-    override fun onItemClicked(item: Movie) {
+    override fun onItemClicked(item: FeaturedMovie) {
         Toast.makeText(context, "${item.title} clicked!", Toast.LENGTH_SHORT).show()
     }
 

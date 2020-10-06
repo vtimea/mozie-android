@@ -41,7 +41,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.login.LoginActivity" />
-        <activity android:name=".ui.main.MainActivity" />
+        <activity android:name=".ui.home.HomeActivity" />
+        <activity android:name=".ui.details.MovieDetailsActivity" />
     </application>
 
 </manifest>
