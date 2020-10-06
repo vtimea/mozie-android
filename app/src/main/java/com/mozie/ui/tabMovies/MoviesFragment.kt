@@ -86,6 +86,7 @@ class MoviesFragment : Fragment(), ItemClickListener<Movie> {
             shimmer(false, binding.shimmerSoon)
         })
         viewModel.networkError.observe(viewLifecycleOwner, { event ->
+            binding.swipeRefresh.isRefreshing = false
             Toast.makeText(
                 context,
                 event.getContentIfNotHandledOrReturnNull() ?: "",
