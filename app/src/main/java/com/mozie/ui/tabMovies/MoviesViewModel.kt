@@ -1,22 +1,30 @@
 package com.mozie.ui.tabMovies
 
+import android.content.Context
+import android.content.res.Resources
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mozie.R
 import com.mozie.data.DataManager
 import com.mozie.data.network.model.movies.Movie
 import com.mozie.data.network.model.movies.MoviesResponse
 import com.mozie.data.network.utils.Callback
 import com.mozie.ui.Event
+import dagger.hilt.android.qualifiers.ApplicationContext
 
-class MoviesViewModel @ViewModelInject constructor(private val dataManager: DataManager) :
+class MoviesViewModel @ViewModelInject constructor(
+    private val dataManager: DataManager,
+    @ApplicationContext private val context: Context
+) :
     ViewModel() {
 
     val moviesRecommended: LiveData<List<Movie>> by this::mMoviesRecommended
     val moviesNow: LiveData<List<Movie>> by this::mMoviesNow
     val moviesSoon: LiveData<List<Movie>> by this::mMoviesSoon
     val networkError: LiveData<Event<String>> by this::mNetworkError
+    private val resources: Resources = context.resources
 
     private val mMoviesRecommended = MutableLiveData<List<Movie>>()
     private val mMoviesNow = MutableLiveData<List<Movie>>()
@@ -39,6 +47,6 @@ class MoviesViewModel @ViewModelInject constructor(private val dataManager: Data
     }
 
     private fun handleError() {
-        mNetworkError.value = Event("Hálózati hiba.")
+        mNetworkError.value = Event(resources.getString(R.string.error_network_problem))
     }
 }
