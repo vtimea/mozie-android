@@ -28,6 +28,7 @@
                 android:layout_marginHorizontal="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_large"
                 android:maxLines="1"
+                android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -66,6 +67,7 @@
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_large"
                 android:text="@string/title_description"
+                android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -77,6 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_small"
+                android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_small"
                 app:layout_constraintTop_toBottomOf="@id/tvDescriptionTitle"
                 tools:text="Mit tennél, ha bármit megtehetnél, következmények nélkül? A szakítófélben lévő Nyles (Andy Samberg – Brooklyn 99 – Nemszázas körzet) napról-napra elkíséri barátnőjét egy Palm Springs-i esküvőre. Ugyanarra. Nyles ugyanis időhurokba került, és mindig ugyanaz az egyetlen nap ismétlődik az életében. Az éppen aktuális napon Nyles a menyasszony nővérére, Sarah-ra (Cristin Milioti – Így jártam anyátokkal) hajt, a vendégekkel gyűjtött tapasztalatait kihasználva persze gyorsan egyenesbe is kerül. Ekkor azonban Sarah is belekerül az időhurokba." />
@@ -88,6 +91,7 @@
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_large"
                 android:text="@string/title_actors"
+                android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -157,5 +161,6 @@
         android:elevation="@dimen/tablayout_elevation"
         android:text="@string/button_ticket_purchasing"
         android:textAllCaps="true"
+        android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_medium" />
 </FrameLayout>

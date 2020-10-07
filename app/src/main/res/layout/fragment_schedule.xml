@@ -10,35 +10,18 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
+        app:contentInsetEnd="@dimen/margin_medium"
         app:contentInsetStart="@dimen/margin_medium"
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@android:color/white">
 
-        <FrameLayout
+        <Spinner
+            android:id="@+id/spinner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@null">
-
-            <TextView
-                android:id="@+id/tvCinema"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="Válassz mozit..."
-                android:textSize="@dimen/margin_medium"
-                android:textStyle="bold"
-                app:autoSizeMaxTextSize="@dimen/text_size_large"
-                app:autoSizeMinTextSize="@dimen/text_size_medium" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_baseline_arrow_drop_down" />
-
-        </FrameLayout>
+            android:backgroundTint="@android:color/white"
+            android:entries="@array/cinema_spinner_empty"
+            android:spinnerMode="dialog" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -64,6 +47,7 @@
             android:layout_marginVertical="@dimen/margin_large"
             android:gravity="center"
             android:text="@string/empty_cinema_text"
+            android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_medium" />
 
     </LinearLayout>

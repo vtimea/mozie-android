@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/tablayout_elevation"
         android:gravity="center"
+        android:textColor="@android:color/white"
         tools:text="Alan alana" />
 
 </LinearLayout>

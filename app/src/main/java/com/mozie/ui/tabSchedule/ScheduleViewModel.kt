@@ -29,16 +29,24 @@ class ScheduleViewModel @ViewModelInject constructor(
 
     fun getCinemas() {
         val token = dataManager.prefsHelper.getAccessToken() ?: ""
-        dataManager.networkHelper.getAllCinemas(token, object : Callback<List<Cinema>>() {
-            override fun returnResult(t: List<Cinema>) {
-                mCinemas.value = t
-            }
+        disposables.add(
+            dataManager.networkHelper.getAllCinemas(
+                token,
+                object : Callback<List<Cinema>>() {
+                    override fun returnResult(t: List<Cinema>) {
+                        mCinemas.value = t
+                    }
 
-            override fun returnError(t: Throwable) {
-                handleError()
-            }
+                    override fun returnError(t: Throwable) {
+                        handleError()
+                    }
 
-        })
+                })
+        )
+    }
+
+    fun getScreenings(cinema: Cinema) {
+
     }
 
     private fun handleError() {

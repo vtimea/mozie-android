@@ -16,6 +16,7 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import com.mozie.R
 import com.mozie.data.network.model.movies.FeaturedMovie
 import com.mozie.databinding.FragmentMoviesBinding
+import com.mozie.ui.Event
 import com.mozie.ui.details.MovieDetailsActivity
 import com.mozie.ui.details.MovieDetailsActivity.KEYS.KEY_MOVIE_ID
 import dagger.hilt.android.AndroidEntryPoint
@@ -76,30 +77,16 @@ class MoviesFragment : Fragment(), ItemClickListener<FeaturedMovie> {
 
     private fun initObservers() {
         viewModel.moviesRecommended.observe(viewLifecycleOwner, { movies ->
-            binding.swipeRefresh.isRefreshing = false
-            binding.rvRecommended.adapter = RvAdapter(movies, this)
-            showMovieLayout(movies.isEmpty(), binding.tvRecommended, binding.rvRecommended)
-            shimmer(false, binding.shimmerRecommended)
+            handleMovieRecommendations(movies)
         })
         viewModel.moviesNow.observe(viewLifecycleOwner, { movies ->
-            binding.swipeRefresh.isRefreshing = false
-            binding.rvNow.adapter = RvAdapter(movies, this)
-            showMovieLayout(movies.isEmpty(), binding.tvNow, binding.rvNow)
-            shimmer(false, binding.shimmerNow)
+            handleMoviesNow(movies)
         })
         viewModel.moviesSoon.observe(viewLifecycleOwner, { movies ->
-            binding.swipeRefresh.isRefreshing = false
-            binding.rvSoon.adapter = RvAdapter(movies, this)
-            showMovieLayout(movies.isEmpty(), binding.tvSoon, binding.rvSoon)
-            shimmer(false, binding.shimmerSoon)
+            handleMoviesSoon(movies)
         })
         viewModel.networkError.observe(viewLifecycleOwner, { event ->
-            binding.swipeRefresh.isRefreshing = false
-            Toast.makeText(
-                context,
-                event.getContentIfNotHandledOrReturnNull() ?: "",
-                Toast.LENGTH_SHORT
-            ).show()
+            handleError(event)
         })
         viewModel.navEvent.observe(viewLifecycleOwner, {
             navigateToDetails(it.getContentIfNotHandledOrReturnNull())
@@ -136,5 +123,35 @@ class MoviesFragment : Fragment(), ItemClickListener<FeaturedMovie> {
             shimmer(true, binding.shimmerNow)
         }
         viewModel.getMovies()
+    }
+
+    private fun handleMovieRecommendations(movies: List<FeaturedMovie>) {
+        binding.swipeRefresh.isRefreshing = false
+        binding.rvRecommended.adapter = RvAdapter(movies, this)
+        showMovieLayout(movies.isEmpty(), binding.tvRecommended, binding.rvRecommended)
+        shimmer(false, binding.shimmerRecommended)
+    }
+
+    private fun handleMoviesNow(movies: List<FeaturedMovie>) {
+        binding.swipeRefresh.isRefreshing = false
+        binding.rvNow.adapter = RvAdapter(movies, this)
+        showMovieLayout(movies.isEmpty(), binding.tvNow, binding.rvNow)
+        shimmer(false, binding.shimmerNow)
+    }
+
+    private fun handleMoviesSoon(movies: List<FeaturedMovie>) {
+        binding.swipeRefresh.isRefreshing = false
+        binding.rvSoon.adapter = RvAdapter(movies, this)
+        showMovieLayout(movies.isEmpty(), binding.tvSoon, binding.rvSoon)
+        shimmer(false, binding.shimmerSoon)
+    }
+
+    private fun handleError(event: Event<String>) {
+        binding.swipeRefresh.isRefreshing = false
+        Toast.makeText(
+            context,
+            event.getContentIfNotHandledOrReturnNull() ?: "",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }
