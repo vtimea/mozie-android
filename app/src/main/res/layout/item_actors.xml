@@ -17,6 +17,7 @@
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/tablayout_elevation"
         android:gravity="center"
         tools:text="Alan alana" />
 

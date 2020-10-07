@@ -2,6 +2,7 @@ package com.mozie.data.network
 
 import com.mozie.data.network.model.login.LoginBody
 import com.mozie.data.network.model.login.LoginResult
+import com.mozie.data.network.model.movies.Cinema
 import com.mozie.data.network.model.movies.MovieDetail
 import com.mozie.data.network.model.movies.MoviesResponse
 import io.reactivex.Observable
@@ -19,4 +20,7 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("id") id: String
     ): Observable<MovieDetail>
+
+    @GET("/api/cinemas")
+    fun getAllCinemas(@Header("Authorization") token: String): Observable<List<Cinema>>
 }

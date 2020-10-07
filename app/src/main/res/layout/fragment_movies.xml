@@ -13,7 +13,7 @@
         android:background="@color/colorPrimary"
         app:contentInsetStart="@dimen/margin_medium"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Filmek"
+        app:title="@string/toolbar_title_movies"
         app:titleTextColor="@android:color/white" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

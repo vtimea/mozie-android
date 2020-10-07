@@ -2,6 +2,7 @@ package com.mozie.data.network
 
 
 import com.mozie.data.network.model.login.LoginResult
+import com.mozie.data.network.model.movies.Cinema
 import com.mozie.data.network.model.movies.MovieDetail
 import com.mozie.data.network.model.movies.MoviesResponse
 import com.mozie.data.network.utils.Callback
@@ -17,4 +18,6 @@ interface NetworkHelper {
         movieId: String,
         callback: Callback<MovieDetail>
     ): Disposable
+
+    fun getAllCinemas(accessToken: String, callback: Callback<List<Cinema>>): Disposable
 }
