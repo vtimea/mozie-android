@@ -14,4 +14,5 @@
     <dimen name="actor_poster_height">75dp</dimen>
     <dimen name="poster_height">190dp</dimen>
     <dimen name="detail_image_height">225dp</dimen>
+    <dimen name="schedule_poster_height">95dp</dimen>
 </resources>

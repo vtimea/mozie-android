@@ -1,6 +1,7 @@
 package com.mozie.data.network
 
 
+import com.mozie.data.network.model.cinemas.Screening
 import com.mozie.data.network.model.login.LoginResult
 import com.mozie.data.network.model.movies.Cinema
 import com.mozie.data.network.model.movies.MovieDetail
@@ -20,4 +21,11 @@ interface NetworkHelper {
     ): Disposable
 
     fun getAllCinemas(accessToken: String, callback: Callback<List<Cinema>>): Disposable
+
+    fun getScreenings(
+        accessToken: String,
+        cinemaId: String,
+        date: String,
+        callback: Callback<List<Screening>>
+    ): Disposable
 }

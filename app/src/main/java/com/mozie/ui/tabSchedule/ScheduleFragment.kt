@@ -6,12 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mozie.R
 import com.mozie.data.network.model.movies.Cinema
 import com.mozie.databinding.FragmentScheduleBinding
+import com.mozie.ui.Event
+import com.mozie.ui.tabSchedule.models.ScheduleMovie
+import com.mozie.ui.tabSchedule.models.ScheduleScreening
 import dagger.hilt.android.AndroidEntryPoint
+import org.joda.time.DateTime
 
 @AndroidEntryPoint
 class ScheduleFragment : Fragment() {
@@ -33,32 +39,45 @@ class ScheduleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews()
         initObservers()
         viewModel.getCinemas()
     }
 
+    private fun initViews() {
+        binding.rvScreenings.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        val spinnerItems = mutableListOf<String>()
+        spinnerItems.add(getString(R.string.cinema_spinner_empty))
+        setSpinnerAdapter(spinnerItems)
+    }
+
     private fun initObservers() {
         viewModel.cinemas.observe(viewLifecycleOwner, { cinemas ->
-            handleCinemas(cinemas)
+            loadCinemas(cinemas)
+        })
+        viewModel.screenings.observe(viewLifecycleOwner, { screenings ->
+            loadScreenings(screenings)
+        })
+        viewModel.networkError.observe(viewLifecycleOwner, { event ->
+            handleError(event)
         })
     }
 
-    private fun handleCinemas(cinemas: List<Cinema>) {
+    private fun loadCinemas(cinemas: List<Cinema>) {
         val spinnerItems = mutableListOf<String>()
         spinnerItems.add(getString(R.string.cinema_spinner_empty))
         for (cinema in cinemas) {
             cinema.name?.let { spinnerItems.add(it) }
         }
-        val adapter: ArrayAdapter<String> =
-            ArrayAdapter(requireContext(), R.layout.item_spinner, spinnerItems)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinner.adapter = adapter
+        setSpinnerAdapter(spinnerItems)
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (position == 0) {
                     showEmptyView()
                 } else {
-                    onCinemaSelected(cinemas[position])
+                    onCinemaSelected(cinemas[position - 1])
                 }
             }
 
@@ -68,12 +87,50 @@ class ScheduleFragment : Fragment() {
         }
     }
 
+    private fun loadScreenings(screenings: Map<ScheduleMovie, Map<String, List<ScheduleScreening>>>) {
+        binding.rvScreenings.adapter = RvAdapter(screenings)
+        showListView()
+    }
+
     private fun onCinemaSelected(cinema: Cinema) {
-        viewModel.getScreenings(cinema)
+        showLoadingView()
+        viewModel.getScreenings(cinema, DateTime.now())
     }
 
     private fun showEmptyView() {
-        // TODO
+        binding.emptyLayout.visibility = View.VISIBLE
+        binding.tabLayout.visibility = View.GONE
+        binding.rvScreenings.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
+    }
+
+    private fun showLoadingView() {
+        binding.emptyLayout.visibility = View.GONE
+        binding.tabLayout.visibility = View.GONE
+        binding.rvScreenings.visibility = View.GONE
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun showListView() {
+        binding.emptyLayout.visibility = View.GONE
+        binding.tabLayout.visibility = View.VISIBLE
+        binding.rvScreenings.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
+    }
+
+    private fun handleError(event: Event<String>) {
+        Toast.makeText(
+            context,
+            event.getContentIfNotHandledOrReturnNull() ?: "",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun setSpinnerAdapter(spinnerItems: List<String>) {
+        val adapter: ArrayAdapter<String> =
+            ArrayAdapter(requireContext(), R.layout.item_spinner, spinnerItems)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinner.adapter = adapter
     }
 
 }
