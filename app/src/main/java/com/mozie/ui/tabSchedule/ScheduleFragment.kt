@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.tabs.TabLayout
 import com.mozie.R
 import com.mozie.data.network.model.movies.Cinema
 import com.mozie.databinding.FragmentScheduleBinding
@@ -57,6 +58,9 @@ class ScheduleFragment : Fragment() {
         viewModel.cinemas.observe(viewLifecycleOwner, { cinemas ->
             loadCinemas(cinemas)
         })
+        viewModel.tabs.observe(viewLifecycleOwner, { tabs ->
+            loadTabs(tabs)
+        })
         viewModel.screenings.observe(viewLifecycleOwner, { screenings ->
             loadScreenings(screenings)
         })
@@ -92,9 +96,33 @@ class ScheduleFragment : Fragment() {
         showListView()
     }
 
+    private fun loadTabs(tabs: List<Pair<String, DateTime>>) {
+        binding.tabLayout.removeAllTabs()
+        for (tab in tabs) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(tab.first))
+        }
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.position?.let {
+                    onTabSelected(it)
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                // do nothing
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                // do nothing
+            }
+        })
+        binding.tabLayout.selectTab(binding.tabLayout.getTabAt(0))
+        viewModel.onTabSelected(0)
+    }
+
     private fun onCinemaSelected(cinema: Cinema) {
         showLoadingView()
-        viewModel.getScreenings(cinema, DateTime.now())
+        viewModel.onCinemaSelected(cinema)
     }
 
     private fun showEmptyView() {
@@ -107,6 +135,13 @@ class ScheduleFragment : Fragment() {
     private fun showLoadingView() {
         binding.emptyLayout.visibility = View.GONE
         binding.tabLayout.visibility = View.GONE
+        binding.rvScreenings.visibility = View.GONE
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun showMovieLoadingView() {
+        binding.emptyLayout.visibility = View.GONE
+        binding.tabLayout.visibility = View.VISIBLE
         binding.rvScreenings.visibility = View.GONE
         binding.progressBar.visibility = View.VISIBLE
     }
@@ -131,6 +166,11 @@ class ScheduleFragment : Fragment() {
             ArrayAdapter(requireContext(), R.layout.item_spinner, spinnerItems)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinner.adapter = adapter
+    }
+
+    private fun onTabSelected(index: Int) {
+        viewModel.onTabSelected(index)
+        showMovieLoadingView()
     }
 
 }

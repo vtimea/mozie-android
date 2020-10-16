@@ -22,10 +22,12 @@ class ScheduleViewModel @ViewModelInject constructor(
     @ApplicationContext private val context: Context
 ) :
     BaseViewModel() {
+    private val NUM_OF_TABS = 5
 
     val cinemas: LiveData<List<Cinema>> by this::mCinemas
     val networkError: LiveData<Event<String>> by this::mNetworkError
     val screenings: LiveData<Map<ScheduleMovie, Map<String, List<ScheduleScreening>>>> by this::mScreenings
+    val tabs: LiveData<List<Pair<String, DateTime>>> by this::mTabs
 
     private val resources: Resources = context.resources
 
@@ -33,6 +35,9 @@ class ScheduleViewModel @ViewModelInject constructor(
     private val mNetworkError = MutableLiveData<Event<String>>()
     private val mScreenings =
         MutableLiveData<Map<ScheduleMovie, Map<String, List<ScheduleScreening>>>>()
+    private val mTabs = MutableLiveData<List<Pair<String, DateTime>>>()
+
+    private var mCurrentCinema: Cinema? = null
 
     fun getCinemas() {
         val token = dataManager.prefsHelper.getAccessToken() ?: ""
@@ -51,7 +56,31 @@ class ScheduleViewModel @ViewModelInject constructor(
         )
     }
 
-    fun getScreenings(cinema: Cinema, date: DateTime) {
+    fun onCinemaSelected(cinema: Cinema) {
+        mCurrentCinema = cinema
+        val tabs = mutableListOf<Pair<String, DateTime>>()
+        tabs.add(Pair(resources.getString(R.string.day_today), DateTime.now()))
+        for (i in 1 until NUM_OF_TABS) {
+            val date = DateTime.now().plusDays(i)
+            val day = getDayString(date)
+            tabs.add(Pair(day, date))
+        }
+        mTabs.value = tabs
+    }
+
+    fun onTabSelected(index: Int) {
+        mCurrentCinema?.let {
+            mTabs.value?.get(index)?.second?.let { date ->
+                getScreenings(
+                    it,
+                    date
+                )
+            }
+        }
+    }
+
+    private fun getScreenings(cinema: Cinema, date: DateTime) {
+        mCurrentCinema = cinema
         val token = dataManager.prefsHelper.getAccessToken() ?: ""
         val dateParam = date.toString()
         dataManager.networkHelper.getScreenings(
@@ -107,5 +136,9 @@ class ScheduleViewModel @ViewModelInject constructor(
 
     private fun handleError() {
         mNetworkError.value = Event(resources.getString(R.string.error_network_problem))
+    }
+
+    private fun getDayString(date: DateTime): String {
+        return resources.getStringArray(R.array.days_of_week)[date.dayOfWeek - 1]
     }
 }
