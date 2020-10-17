@@ -1,5 +1,6 @@
 package com.mozie.ui.tabSchedule
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,13 +16,14 @@ import com.mozie.R
 import com.mozie.data.network.model.movies.Cinema
 import com.mozie.databinding.FragmentScheduleBinding
 import com.mozie.ui.Event
+import com.mozie.ui.details.MovieDetailsActivity
 import com.mozie.ui.tabSchedule.models.ScheduleMovie
 import com.mozie.ui.tabSchedule.models.ScheduleScreening
 import dagger.hilt.android.AndroidEntryPoint
 import org.joda.time.DateTime
 
 @AndroidEntryPoint
-class ScheduleFragment : Fragment() {
+class ScheduleFragment : Fragment(), MovieClickListener {
     private lateinit var binding: FragmentScheduleBinding
     private val viewModel: ScheduleViewModel by viewModels()
 
@@ -92,7 +94,7 @@ class ScheduleFragment : Fragment() {
     }
 
     private fun loadScreenings(screenings: Map<ScheduleMovie, Map<String, List<ScheduleScreening>>>) {
-        binding.rvScreenings.adapter = RvAdapter(screenings)
+        binding.rvScreenings.adapter = RvAdapter(screenings, this)
         showListView()
     }
 
@@ -173,4 +175,16 @@ class ScheduleFragment : Fragment() {
         showMovieLoadingView()
     }
 
+    private fun navigateToDetails(movieId: String?) {
+        movieId?.let {
+            val intent = Intent(activity, MovieDetailsActivity::class.java)
+            intent.putExtra(MovieDetailsActivity.KEYS.KEY_MOVIE_ID, movieId)
+            startActivity(intent)
+            requireActivity().overridePendingTransition(R.anim.slide_up, R.anim.no_change)
+        }
+    }
+
+    override fun onMovieClicked(movieId: String) {
+        navigateToDetails(movieId)
+    }
 }

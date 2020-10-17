@@ -17,7 +17,10 @@ import com.squareup.picasso.Picasso
 import java.util.*
 
 
-class RvAdapter(screenings: Map<ScheduleMovie, Map<String, List<ScheduleScreening>>>) :
+class RvAdapter(
+    screenings: Map<ScheduleMovie, Map<String, List<ScheduleScreening>>>,
+    val movieClickListener: MovieClickListener
+) :
     RecyclerView.Adapter<RvAdapter.ItemViewHolder>() {
     private val mScreenings: List<Pair<ScheduleMovie, Map<String, List<ScheduleScreening>>>> =
         screenings.toList()
@@ -39,6 +42,9 @@ class RvAdapter(screenings: Map<ScheduleMovie, Map<String, List<ScheduleScreenin
             itemView.findViewById<TextView>(R.id.genre).text = movie.genre
             itemView.findViewById<TextView>(R.id.length).text =
                 itemView.resources.getString(R.string.length_text, movie.length)
+            imageView.setOnClickListener {
+                movieClickListener.onMovieClicked(pair.first.id)
+            }
 
             val inflater = LayoutInflater.from(context)
             val movieTypes = pair.second.toList()
