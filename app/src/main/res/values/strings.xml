@@ -40,4 +40,6 @@
         <item>Szombat</item>
         <item>Vasárnap</item>
     </string-array>
+    <string name="screening_voice">(HANG: %1$s)</string>
+    <string name="hour_minute_format">%1$02d:%2$02d</string>
 </resources>

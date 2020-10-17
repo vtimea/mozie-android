@@ -66,9 +66,10 @@
         <LinearLayout
             android:id="@+id/layoutDates"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:background="@color/colorShimmer"
             android:orientation="vertical"
+            android:paddingTop="@dimen/margin_small"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.cardview.widget.CardView>
 

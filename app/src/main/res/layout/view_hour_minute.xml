@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <TextView
+        android:id="@+id/tvHourMinute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/margin_small"
+        android:maxLines="1"
+        android:paddingVertical="@dimen/tablayout_elevation"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold"
+        tools:text="12:00" />
+
+</FrameLayout>
