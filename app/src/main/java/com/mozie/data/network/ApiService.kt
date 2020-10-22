@@ -25,7 +25,7 @@ interface ApiService {
     @GET("/api/cinemas")
     fun getAllCinemas(@Header("Authorization") token: String): Observable<List<Cinema>>
 
-    @GET("/api/screenings")
+    @GET("/api/schedule")
     fun getScreenings(
         @Header("Authorization") token: String,
         @Query("date") date: String,
