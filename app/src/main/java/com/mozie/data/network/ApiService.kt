@@ -7,6 +7,7 @@ import com.mozie.data.network.model.login.LoginResult
 import com.mozie.data.network.model.movies.Cinema
 import com.mozie.data.network.model.movies.MovieDetail
 import com.mozie.data.network.model.movies.MoviesResponse
+import com.mozie.data.network.model.tickets.TicketType
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -38,4 +39,10 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Query("movieId") movieId: String
     ): Observable<List<Screening>>
+
+    @GET("/api/tickets")
+    fun getTicketTypes(
+        @Header("Authorization") token: String,
+        @Query("type") type: String?
+    ): Observable<List<TicketType>>
 }
