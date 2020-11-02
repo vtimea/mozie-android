@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mozie.R
 import com.mozie.data.DataManager
-import com.mozie.data.network.model.cinemas.Screening
+import com.mozie.data.network.model.cinemas.ScheduledScreening
 import com.mozie.data.network.model.movies.Cinema
 import com.mozie.data.network.utils.Callback
 import com.mozie.ui.Event
@@ -83,12 +83,12 @@ class ScheduleViewModel @ViewModelInject constructor(
         mCurrentCinema = cinema
         val token = dataManager.prefsHelper.getAccessToken() ?: ""
         val dateParam = date.toString()
-        dataManager.networkHelper.getScreenings(
+        dataManager.networkHelper.getSchedule(
             token,
             cinema.id ?: "",
             dateParam,
-            object : Callback<List<Screening>>() {
-                override fun returnResult(t: List<Screening>) {
+            object : Callback<List<ScheduledScreening>>() {
+                override fun returnResult(t: List<ScheduledScreening>) {
                     processScreenings(t)
                 }
 
@@ -98,9 +98,9 @@ class ScheduleViewModel @ViewModelInject constructor(
             })
     }
 
-    private fun processScreenings(screenings: List<Screening>) {
+    private fun processScreenings(scheduledScreenings: List<ScheduledScreening>) {
         val result = HashMap<ScheduleMovie, MutableMap<String, MutableList<ScheduleScreening>>>()
-        for (screening in screenings) {
+        for (screening in scheduledScreenings) {
             val type = "${screening.type} ${screening.voice}"
             val movie = ScheduleMovie(
                 screening.movieId!!,

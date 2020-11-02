@@ -3,7 +3,7 @@ package com.mozie.data.network.model.cinemas
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Screening {
+class ScheduledScreening {
     @SerializedName("id")
     @Expose
     val id: String? = null
@@ -35,4 +35,16 @@ class Screening {
     @SerializedName("movie_title")
     @Expose
     val movieTitle: String? = null
+
+    @SerializedName("movie_genre")
+    @Expose
+    val movieGenre: String? = null
+
+    @SerializedName("movie_length")
+    @Expose
+    val movieLength: Int? = null
+
+    @SerializedName("movie_poster")
+    @Expose
+    val moviePoster: String? = null
 }

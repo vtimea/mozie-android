@@ -1,5 +1,6 @@
 package com.mozie.data.network
 
+import com.mozie.data.network.model.cinemas.ScheduledScreening
 import com.mozie.data.network.model.cinemas.Screening
 import com.mozie.data.network.model.login.LoginBody
 import com.mozie.data.network.model.login.LoginResult
@@ -26,9 +27,15 @@ interface ApiService {
     fun getAllCinemas(@Header("Authorization") token: String): Observable<List<Cinema>>
 
     @GET("/api/schedule")
-    fun getScreenings(
+    fun getSchedule(
         @Header("Authorization") token: String,
         @Query("date") date: String,
         @Query("cinema") cinemaId: String
+    ): Observable<List<ScheduledScreening>>
+
+    @GET("/api/screenings")
+    fun getScreenings(
+        @Header("Authorization") token: String,
+        @Query("movieId") movieId: String
     ): Observable<List<Screening>>
 }

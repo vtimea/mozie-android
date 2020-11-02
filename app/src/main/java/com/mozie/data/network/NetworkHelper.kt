@@ -1,6 +1,7 @@
 package com.mozie.data.network
 
 
+import com.mozie.data.network.model.cinemas.ScheduledScreening
 import com.mozie.data.network.model.cinemas.Screening
 import com.mozie.data.network.model.login.LoginResult
 import com.mozie.data.network.model.movies.Cinema
@@ -22,10 +23,16 @@ interface NetworkHelper {
 
     fun getAllCinemas(accessToken: String, callback: Callback<List<Cinema>>): Disposable
 
-    fun getScreenings(
+    fun getSchedule(
         accessToken: String,
         cinemaId: String,
         date: String,
+        callback: Callback<List<ScheduledScreening>>
+    ): Disposable
+
+    fun getScreenings(
+        accessToken: String,
+        movieId: String,
         callback: Callback<List<Screening>>
     ): Disposable
 }
