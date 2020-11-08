@@ -1,6 +1,7 @@
 package com.mozie.ui.ticketPicker
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -11,7 +12,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.TransitionManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.mozie.R
 import com.mozie.data.network.model.cinemas.Screening
 import com.mozie.databinding.ActivityTicketPickerBinding
@@ -20,13 +26,18 @@ import com.mozie.ui.ticketPicker.seatpicker.SeatPickerFragment
 import com.mozie.ui.ticketPicker.summary.SummaryFragment
 import com.mozie.ui.ticketPicker.ticketType.TicketTypeFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.joda.time.DateTime
+
 
 @AndroidEntryPoint
 class TicketPickerActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_MOVIE_ID = "EXTR_MOVIEID"
         const val EXTRA_MOVIE_TITLE = "EXTR_MOVIE_TITLE"
+        const val ANIMATION_DURATION: Long = 400L
+        const val ANIMATION_DELAY: Long = 100L
     }
 
     private val viewModel: TicketPickerViewModel by viewModels()
@@ -56,6 +67,61 @@ class TicketPickerActivity : AppCompatActivity() {
             page.visibility = View.VISIBLE
             page.animate()
                 .alpha(1f)
+        }
+        binding.pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                when (position) {
+                    0 -> {
+                        binding.toolbar.title = getString(R.string.toolbar_ticket_type_picker)
+                    }
+                    1 -> {
+                        binding.toolbar.title = getString(R.string.toolbar_seat_picker)
+                        if (binding.bottomCard.visibility == View.GONE) {
+                            lifecycleScope.launch {
+                                fadePayBtn(false)
+                                delay(ANIMATION_DELAY)
+                                toggleBottomCard(true)
+                            }
+                        }
+                    }
+                    else -> {
+                        binding.toolbar.title = getString(R.string.toolbar_ticket_summary)
+                        lifecycleScope.launch {
+                            toggleBottomCard(false)
+                            delay(ANIMATION_DELAY)
+                            fadePayBtn(true)
+                        }
+                    }
+                }
+            }
+        })
+        binding.btnNext.setOnClickListener {
+            when (binding.pager.currentItem) {
+                0 -> {
+                    binding.pager.currentItem = 1
+                }
+                1 -> {
+                    binding.pager.currentItem = 2
+                }
+            }
+        }
+        binding.btnPay.setOnClickListener {
+            if (binding.pager.currentItem == 2) {
+                // TODO START PAYMENT
+            }
+        }
+        binding.toolbar.setNavigationOnClickListener {
+            when (binding.pager.currentItem) {
+                0 -> {
+                    finish()
+                }
+                1 -> {
+                    binding.pager.currentItem = 0
+                }
+                else -> {
+                    binding.pager.currentItem = 1
+                }
+            }
         }
     }
 
@@ -194,5 +260,21 @@ class TicketPickerActivity : AppCompatActivity() {
         } else {
             binding.btnNext.alpha = 0.4f
         }
+    }
+
+    private fun fadePayBtn(show: Boolean) {
+        val transition = Fade()
+        transition.duration = ANIMATION_DURATION
+        transition.addTarget(binding.bottomCardPay)
+        TransitionManager.beginDelayedTransition(binding.parent, transition)
+        binding.bottomCardPay.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+    private fun toggleBottomCard(show: Boolean) {
+        val transition = Slide(Gravity.BOTTOM)
+        transition.duration = ANIMATION_DURATION
+        transition.addTarget(binding.bottomCard)
+        TransitionManager.beginDelayedTransition(binding.parent, transition)
+        binding.bottomCard.visibility = if (show) View.VISIBLE else View.GONE
     }
 }

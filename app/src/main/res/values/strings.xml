@@ -24,8 +24,9 @@
     <string name="title_actors">Szereplők</string>
     <string name="length_text">%1$d perc</string>
     <string name="toolbar_title_movies">Filmek</string>
-    <string name="empty_cinema_text">A műsor megtekintéséhez kérlek válassz ki felül egy mozit.</string>
 
+    <!-- Schedule tab / Ticket picker -->
+    <string name="empty_cinema_text">A műsor megtekintéséhez kérlek válassz ki felül egy mozit.</string>
     <string name="cinema_spinner_empty">Válassz mozit…</string>
     <string-array name="cinema_spinner_empty">
         <item>Válassz mozit…</item>
@@ -47,4 +48,9 @@
     <string name="year_month_day_format">%1$04d.%2$02d.%3$02d</string>
     <string name="hour_minute_format">%1$02d:%2$02d</string>
     <string name="btn_next">Következő</string>
+    <string name="btn_pay">Fizetés</string>
+
+    <string name="toolbar_ticket_type_picker">Jegyek kiválasztása</string>
+    <string name="toolbar_seat_picker">Ülőhelyek kiválasztása</string>
+    <string name="toolbar_ticket_summary">Összegzés</string>
 </resources>

@@ -27,6 +27,10 @@ class TicketTypeViewModel @ViewModelInject constructor(
     private val mAllTicketTypes = MutableLiveData<List<TicketType>>()
     private val mCurrentTicketTypes = MutableLiveData<List<TicketType>>()
 
+    fun onTicketTypeChanged(type: String) {
+        mCurrentTicketTypes.value = filterTicketTypes(type)
+    }
+
     fun getTicketTypes() {
         val token = dataManager.prefsHelper.getAccessToken() ?: ""
         disposables.add(
