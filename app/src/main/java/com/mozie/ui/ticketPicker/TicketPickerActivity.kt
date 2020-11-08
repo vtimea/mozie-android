@@ -97,18 +97,17 @@ class TicketPickerActivity : AppCompatActivity() {
     }
 
     private fun setSpinnerAdapter(spinnerItems: List<String>, spinner: Spinner) {
-        val items: MutableList<String> =
-            resources.getStringArray(R.array.spinner_empty).toMutableList()
-        items.addAll(spinnerItems)
         val adapter: ArrayAdapter<String> =
-            ArrayAdapter(this, android.R.layout.simple_spinner_item, items)
+            ArrayAdapter(this, android.R.layout.simple_spinner_item, spinnerItems)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
     }
 
     private fun onCurrentCinemas(cinemas: List<String>) {
-        binding.spCinema.isEnabled = cinemas.isNotEmpty()
-        setSpinnerAdapter(cinemas, binding.spCinema)
+        enableActionButton(cinemas.isNotEmpty())
+        val spinnerItems = resources.getStringArray(R.array.cinema_spinner_empty).toMutableList()
+        spinnerItems.addAll(cinemas)
+        setSpinnerAdapter(spinnerItems, binding.spCinema)
         binding.spCinema.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -131,8 +130,8 @@ class TicketPickerActivity : AppCompatActivity() {
     }
 
     private fun onCurrentDates(dates: List<DateTime>) {
-        binding.spDay.isEnabled = dates.isNotEmpty()
-        val spinnerItems: MutableList<String> = mutableListOf()
+        enableActionButton(dates.isNotEmpty())
+        val spinnerItems = resources.getStringArray(R.array.spinner_empty).toMutableList()
         dates.forEach { date ->
             val text = getString(
                 R.string.year_month_day_format,
@@ -159,8 +158,8 @@ class TicketPickerActivity : AppCompatActivity() {
     }
 
     private fun onCurrentTimes(it: List<DateTime>) {
-        binding.spTime.isEnabled = it.isNotEmpty()
-        val spinnerItems: MutableList<String> = mutableListOf()
+        enableActionButton(it.isNotEmpty())
+        val spinnerItems = resources.getStringArray(R.array.spinner_empty).toMutableList()
         it.forEach { date ->
             val text = getString(R.string.hour_minute_format, date.hourOfDay, date.minuteOfHour)
             spinnerItems.add(text)
@@ -182,7 +181,18 @@ class TicketPickerActivity : AppCompatActivity() {
     }
 
     private fun onCurrentScreening(screening: Screening?) {
-        binding.btnNext.isEnabled = (screening != null)
-        Toast.makeText(this, screening?.id, Toast.LENGTH_SHORT).show()
+        enableActionButton(screening != null)
+        screening?.let {
+            Toast.makeText(this, it.id, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun enableActionButton(isEnabled: Boolean) {
+        binding.btnNext.isEnabled = isEnabled
+        if (isEnabled) {
+            binding.btnNext.alpha = 1f
+        } else {
+            binding.btnNext.alpha = 0.4f
+        }
     }
 }
