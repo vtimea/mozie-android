@@ -39,7 +39,8 @@ class TicketPickerActivity : AppCompatActivity() {
         const val ANIMATION_DELAY: Long = 100L
     }
 
-    private val viewModel: TicketPickerViewModel by viewModels()
+    private val ticketViewModel: TicketViewModel by viewModels()
+    private val ticketTypeViewModel: TicketTypeViewModel by viewModels()
     private lateinit var binding: ActivityTicketPickerBinding
 
     private lateinit var movieId: String
@@ -52,9 +53,9 @@ class TicketPickerActivity : AppCompatActivity() {
         setContentView(view)
         movieId = intent.getStringExtra(EXTRA_MOVIE_ID) ?: ""
         movieTitle = intent.getStringExtra(EXTRA_MOVIE_TITLE) ?: ""
-        viewModel.getScreenings(movieId)
         initViews()
         initObservers()
+        loadData()
     }
 
     override fun onBackPressed() {
@@ -69,11 +70,6 @@ class TicketPickerActivity : AppCompatActivity() {
                 binding.pager.currentItem = 1
             }
         }
-    }
-
-    fun onChosenTicketCountChanged(count: Int) {
-        val fragment = (binding.pager.adapter as FadingPagerAdapter).frTicketType
-        enableActionButton(viewModel.currentScreening.value != null && fragment.getChosenTicketCount() > 0)
     }
 
     private fun initViews() {
@@ -134,21 +130,29 @@ class TicketPickerActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
-        viewModel.networkError.observe(this, {
+        ticketViewModel.networkError.observe(this, {
             handleError(it)
         })
-        viewModel.currentCinemas.observe(this, {
+        ticketViewModel.currentCinemas.observe(this, {
             onCurrentCinemas(it)
         })
-        viewModel.currentDates.observe(this, {
+        ticketViewModel.currentDates.observe(this, {
             onCurrentDates(it)
         })
-        viewModel.currentTimes.observe(this, {
+        ticketViewModel.currentTimes.observe(this, {
             onCurrentTimes(it)
         })
-        viewModel.currentScreening.observe(this, {
+        ticketViewModel.currentScreening.observe(this, {
             onCurrentScreening(it)
         })
+        ticketTypeViewModel.userSelectedTickets.observe(this, {
+            enableActionButton(ticketViewModel.currentScreening.value != null && ticketTypeViewModel.getChosenTicketsSize() > 0)
+        })
+    }
+
+    private fun loadData() {
+        ticketViewModel.getScreenings(movieId)
+        ticketTypeViewModel.getTicketTypes()
     }
 
     private inner class FadingPagerAdapter(fm: FragmentManager, lifecycle: Lifecycle) :
@@ -197,7 +201,7 @@ class TicketPickerActivity : AppCompatActivity() {
                     if (position > 0) {
                         selectedCinema = cinemas[position - 1]
                     }
-                    viewModel.onCinemaSelected(selectedCinema)
+                    ticketViewModel.onCinemaSelected(selectedCinema)
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -224,7 +228,7 @@ class TicketPickerActivity : AppCompatActivity() {
                 if (position > 0) {
                     date = dates[position - 1]
                 }
-                viewModel.onDateSelected(date)
+                ticketViewModel.onDateSelected(date)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -246,7 +250,7 @@ class TicketPickerActivity : AppCompatActivity() {
                 if (position > 0) {
                     date = it[position - 1]
                 }
-                viewModel.onTimeSelected(date)
+                ticketViewModel.onTimeSelected(date)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -256,9 +260,8 @@ class TicketPickerActivity : AppCompatActivity() {
     }
 
     private fun onCurrentScreening(screening: Screening?) {
-        val fragment = (binding.pager.adapter as FadingPagerAdapter).frTicketType
-        fragment.onTicketTypeChanged(screening?.type)
-        enableActionButton(screening != null && fragment.getChosenTicketCount() > 0)
+        ticketTypeViewModel.onTicketTypeChanged(screening?.type)
+        enableActionButton(screening != null && ticketTypeViewModel.getChosenTicketsSize() > 0)
     }
 
     private fun enableActionButton(isEnabled: Boolean) {

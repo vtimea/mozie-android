@@ -17,7 +17,7 @@ class RvAdapterTicketTypes(private var ticketTypes: List<TicketType>) :
     private val chosenTickets: MutableMap<String, Int> = mutableMapOf()
 
     abstract class OnTicketTypeEvent {
-        open fun onTicketTypesChanged(count: Int) {}
+        open fun onTicketTypesChanged(chosenTickets: Map<String, Int>) {}
     }
 
     inner class TicketTypeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -45,7 +45,7 @@ class RvAdapterTicketTypes(private var ticketTypes: List<TicketType>) :
             if (count > 0) {
                 val newValue = count - 1
                 chosenTickets[ticketType.name] = newValue
-                mListener?.onTicketTypesChanged(getChosenTicketsSize())
+                mListener?.onTicketTypesChanged(chosenTickets)
             }
             tvCounter.text = getChosenTicketsSizeByType(ticketType.name).toString()
         }
@@ -55,7 +55,7 @@ class RvAdapterTicketTypes(private var ticketTypes: List<TicketType>) :
             if (count < 10) {
                 val newValue = count + 1
                 chosenTickets[ticketType.name] = newValue
-                mListener?.onTicketTypesChanged(getChosenTicketsSize())
+                mListener?.onTicketTypesChanged(chosenTickets)
             }
             tvCounter.text = getChosenTicketsSizeByType(ticketType.name).toString()
         }
@@ -73,25 +73,17 @@ class RvAdapterTicketTypes(private var ticketTypes: List<TicketType>) :
 
     override fun getItemCount(): Int = ticketTypes.size
 
+    fun getChosenTickets() = chosenTickets
+
     fun setTicketTypes(ticketTypes: List<TicketType>) {
         this.ticketTypes = ticketTypes
     }
 
-    fun getChosenTickets() = chosenTickets
-
-    fun getChosenTicketsSizeByType(ticketType: String): Int {
-        return chosenTickets[ticketType] ?: 0
-    }
-
-    fun getChosenTicketsSize(): Int {
-        var count = 0
-        for (ticket in chosenTickets) {
-            count += ticket.value
-        }
-        return count
-    }
-
     fun setTicketTypeListener(listener: OnTicketTypeEvent) {
         mListener = listener
+    }
+
+    private fun getChosenTicketsSizeByType(ticketType: String): Int {
+        return chosenTickets[ticketType] ?: 0
     }
 }

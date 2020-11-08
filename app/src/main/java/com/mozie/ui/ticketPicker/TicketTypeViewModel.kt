@@ -1,4 +1,4 @@
-package com.mozie.ui.ticketPicker.ticketType
+package com.mozie.ui.ticketPicker
 
 import android.content.Context
 import android.content.res.Resources
@@ -20,12 +20,13 @@ class TicketTypeViewModel @ViewModelInject constructor(
 
     val networkError: LiveData<Event<String>> by this::mNetworkError
     val ticketTypes: LiveData<List<TicketType>> by this::mCurrentTicketTypes
+    val userSelectedTickets = MutableLiveData<Map<String, Int>>()
 
     private val resources: Resources = context.resources
 
     private val mNetworkError = MutableLiveData<Event<String>>()
 
-    private val mAllTicketTypes = MutableLiveData<List<TicketType>>()
+    private var mAllTicketTypes: List<TicketType> = listOf()
     private val mCurrentTicketTypes = MutableLiveData<List<TicketType>>()
 
     fun onTicketTypeChanged(type: String?) {
@@ -36,6 +37,14 @@ class TicketTypeViewModel @ViewModelInject constructor(
         mCurrentTicketTypes.value = filterTicketTypes(type)
     }
 
+    fun getChosenTicketsSize(): Int {
+        var count = 0
+        for (ticket in userSelectedTickets.value ?: mutableMapOf()) {
+            count += ticket.value
+        }
+        return count
+    }
+
     fun getTicketTypes() {
         val token = dataManager.prefsHelper.getAccessToken() ?: ""
         disposables.add(
@@ -44,7 +53,7 @@ class TicketTypeViewModel @ViewModelInject constructor(
                 "",
                 object : Callback<List<TicketType>>() {
                     override fun returnResult(t: List<TicketType>) {
-                        mAllTicketTypes.value = t
+                        mAllTicketTypes = t
                     }
 
                     override fun returnError(t: Throwable) {
@@ -59,8 +68,8 @@ class TicketTypeViewModel @ViewModelInject constructor(
     }
 
     private fun filterTicketTypes(type: String): List<TicketType> {
-        return mAllTicketTypes.value?.filter {
+        return mAllTicketTypes.filter {
             it.type == type
-        } ?: listOf()
+        }
     }
 }

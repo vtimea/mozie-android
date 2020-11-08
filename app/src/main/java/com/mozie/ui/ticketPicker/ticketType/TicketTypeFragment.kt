@@ -1,31 +1,33 @@
 package com.mozie.ui.ticketPicker.ticketType
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mozie.databinding.FragmentTicketTypesBinding
 import com.mozie.ui.Event
-import com.mozie.ui.ticketPicker.TicketPickerActivity
+import com.mozie.ui.ticketPicker.TicketTypeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TicketTypeFragment : Fragment() {
+
     companion object {
         fun newInstance() = TicketTypeFragment()
     }
 
     private lateinit var binding: FragmentTicketTypesBinding
-    private val viewModel: TicketTypeViewModel by viewModels()
+    private lateinit var viewModel: TicketTypeViewModel
     private var listAdapter: RvAdapterTicketTypes = RvAdapterTicketTypes(listOf())
     private val mTicketTypeEvent: RvAdapterTicketTypes.OnTicketTypeEvent =
         object : RvAdapterTicketTypes.OnTicketTypeEvent() {
-            override fun onTicketTypesChanged(count: Int) {
-                (requireActivity() as TicketPickerActivity).onChosenTicketCountChanged(count)
+            override fun onTicketTypesChanged(chosenTickets: Map<String, Int>) {
+                viewModel.userSelectedTickets.value = chosenTickets
             }
         }
 
@@ -42,14 +44,12 @@ class TicketTypeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         initObservers()
-        viewModel.getTicketTypes()
     }
 
-    fun onTicketTypeChanged(type: String?) {
-        viewModel.onTicketTypeChanged(type)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        viewModel = ViewModelProvider(requireActivity()).get(TicketTypeViewModel::class.java)
     }
-
-    fun getChosenTicketCount(): Int = listAdapter.getChosenTicketsSize()
 
     private fun initViews() {
         binding.rvTicketTypes.layoutManager =
