@@ -1,5 +1,6 @@
 package com.mozie.ui.ticketPicker
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -237,20 +238,29 @@ class TicketPickerActivity : AppCompatActivity() {
         }
     }
 
-    private fun onCurrentTimes(it: List<DateTime>) {
+    @SuppressLint("DefaultLocale")
+    private fun onCurrentTimes(it: List<Pair<String, DateTime>>) {
         val spinnerItems = resources.getStringArray(R.array.spinner_empty).toMutableList()
-        it.forEach { date ->
-            val text = getString(R.string.hour_minute_format, date.hourOfDay, date.minuteOfHour)
+        it.forEach { event ->
+            val type = event.first
+            val date = event.second
+            val text =
+                getString(
+                    R.string.hour_minute_format,
+                    date.hourOfDay,
+                    date.minuteOfHour,
+                    type.toUpperCase()
+                )
             spinnerItems.add(text)
         }
         setSpinnerAdapter(spinnerItems, binding.spTime)
         binding.spTime.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                var date: DateTime? = null
+                var event: Pair<String, DateTime>? = null
                 if (position > 0) {
-                    date = it[position - 1]
+                    event = it[position - 1]
                 }
-                ticketViewModel.onTimeSelected(date)
+                ticketViewModel.onTimeSelected(event?.second)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {

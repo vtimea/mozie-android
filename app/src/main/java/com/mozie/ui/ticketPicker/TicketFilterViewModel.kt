@@ -22,7 +22,7 @@ class TicketFilterViewModel @ViewModelInject constructor(
     val networkError: LiveData<Event<String>> by this::mNetworkError
     val currentCinemas: LiveData<List<String>> by this::mCurrentCinemas
     val currentDates: LiveData<List<DateTime>> by this::mCurrentDates
-    val currentTimes: LiveData<List<DateTime>> by this::mCurrentTimes
+    val currentTimes: LiveData<List<Pair<String, DateTime>>> by this::mCurrentTimes
     val currentScreening: LiveData<Screening?> by this::mFilteredByTime
 
     private val resources: Resources = context.resources
@@ -31,7 +31,7 @@ class TicketFilterViewModel @ViewModelInject constructor(
 
     private val mCurrentCinemas = MutableLiveData<List<String>>()
     private val mCurrentDates = MutableLiveData<List<DateTime>>()
-    private val mCurrentTimes = MutableLiveData<List<DateTime>>()
+    private val mCurrentTimes = MutableLiveData<List<Pair<String, DateTime>>>()
 
     private var mAllScreenings: List<Screening> = listOf()
     private var mFilteredByCinema: List<Screening> = listOf()
@@ -112,11 +112,11 @@ class TicketFilterViewModel @ViewModelInject constructor(
         return result.toList()
     }
 
-    private fun getTimeFilters(screenings: List<Screening>): List<DateTime> {
-        val result: MutableSet<DateTime> = mutableSetOf()
+    private fun getTimeFilters(screenings: List<Screening>): List<Pair<String, DateTime>> {
+        val result: MutableSet<Pair<String, DateTime>> = mutableSetOf()
         for (screening in screenings) {
             val date = DateTime.parse(screening.startTime)
-            result.add(date)
+            result.add(Pair(screening.type ?: "", date))
         }
         return result.toList()
     }

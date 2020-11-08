@@ -77,6 +77,7 @@ class RvAdapterTicketTypes(private var ticketTypes: List<TicketType>) :
 
     fun setTicketTypes(ticketTypes: List<TicketType>) {
         this.ticketTypes = ticketTypes
+        notifyDataSetChanged()
     }
 
     fun setTicketTypeListener(listener: OnTicketTypeEvent) {
