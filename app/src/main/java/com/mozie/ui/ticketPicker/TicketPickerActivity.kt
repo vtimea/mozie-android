@@ -39,7 +39,7 @@ class TicketPickerActivity : AppCompatActivity() {
         const val ANIMATION_DELAY: Long = 100L
     }
 
-    private val ticketViewModel: TicketViewModel by viewModels()
+    private val ticketViewModel: TicketFilterViewModel by viewModels()
     private val ticketTypeViewModel: TicketTypeViewModel by viewModels()
     private lateinit var binding: ActivityTicketPickerBinding
 

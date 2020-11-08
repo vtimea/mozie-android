@@ -14,7 +14,7 @@ import com.mozie.ui.base.BaseViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.joda.time.DateTime
 
-class TicketViewModel @ViewModelInject constructor(
+class TicketFilterViewModel @ViewModelInject constructor(
     private val dataManager: DataManager,
     @ApplicationContext private val context: Context
 ) : BaseViewModel() {
