@@ -15,4 +15,8 @@ class TicketType {
     @SerializedName("price")
     @Expose
     val price: Int? = null
+
+    @SerializedName("type")
+    @Expose
+    val type: String? = null
 }

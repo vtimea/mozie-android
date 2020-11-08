@@ -30,6 +30,9 @@
     <string-array name="cinema_spinner_empty">
         <item>Válassz mozit…</item>
     </string-array>
+    <string-array name="spinner_empty">
+        <item>---</item>
+    </string-array>
     <string name="day_today">Ma</string>
     <string-array name="days_of_week">
         <item>Hétfő</item>
@@ -41,6 +44,7 @@
         <item>Vasárnap</item>
     </string-array>
     <string name="screening_voice">(HANG: %1$s)</string>
+    <string name="year_month_day_format">%1$04d.%2$02d.%3$02d</string>
     <string name="hour_minute_format">%1$02d:%2$02d</string>
     <string name="btn_next">Következő</string>
 </resources>

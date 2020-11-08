@@ -51,6 +51,7 @@ class MovieDetailsActivity : AppCompatActivity() {
         viewModel.detail.observe(this, {
             showDetailsFragment(it)
         })
+        // TODO HANDLE ERROR
     }
 
     private fun showDetailsFragment(movie: MovieDetail) {
