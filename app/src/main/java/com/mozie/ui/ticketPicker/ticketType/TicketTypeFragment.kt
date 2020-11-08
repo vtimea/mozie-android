@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mozie.databinding.FragmentTicketTypesBinding
 import com.mozie.ui.Event
+import com.mozie.ui.ticketPicker.TicketPickerActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,6 +21,13 @@ class TicketTypeFragment : Fragment() {
 
     private lateinit var binding: FragmentTicketTypesBinding
     private val viewModel: TicketTypeViewModel by viewModels()
+    private var listAdapter: RvAdapterTicketTypes = RvAdapterTicketTypes(listOf())
+    private val mTicketTypeEvent: RvAdapterTicketTypes.OnTicketTypeEvent =
+        object : RvAdapterTicketTypes.OnTicketTypeEvent() {
+            override fun onTicketTypesChanged(count: Int) {
+                (requireActivity() as TicketPickerActivity).onChosenTicketCountChanged(count)
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,9 +49,13 @@ class TicketTypeFragment : Fragment() {
         viewModel.onTicketTypeChanged(type)
     }
 
+    fun getChosenTicketCount(): Int = listAdapter.getChosenTicketsSize()
+
     private fun initViews() {
         binding.rvTicketTypes.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        listAdapter.setTicketTypeListener(mTicketTypeEvent)
+        binding.rvTicketTypes.adapter = listAdapter
     }
 
     private fun initObservers() {
@@ -53,7 +65,7 @@ class TicketTypeFragment : Fragment() {
         viewModel.ticketTypes.observe(viewLifecycleOwner, {
             showEmptyView(it.isNullOrEmpty())
             if (!it.isNullOrEmpty()) {
-                binding.rvTicketTypes.adapter = RvAdapterTicketTypes(it)
+                listAdapter.setTicketTypes(it)
             }
         })
     }

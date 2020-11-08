@@ -71,6 +71,11 @@ class TicketPickerActivity : AppCompatActivity() {
         }
     }
 
+    fun onChosenTicketCountChanged(count: Int) {
+        val fragment = (binding.pager.adapter as FadingPagerAdapter).frTicketType
+        enableActionButton(viewModel.currentScreening.value != null && fragment.getChosenTicketCount() > 0)
+    }
+
     private fun initViews() {
         binding.tvMovieTitle.text = movieTitle
         binding.pager.isUserInputEnabled = false
@@ -251,8 +256,9 @@ class TicketPickerActivity : AppCompatActivity() {
     }
 
     private fun onCurrentScreening(screening: Screening?) {
-        enableActionButton(screening != null)
-        (binding.pager.adapter as FadingPagerAdapter).frTicketType.onTicketTypeChanged(screening?.type)
+        val fragment = (binding.pager.adapter as FadingPagerAdapter).frTicketType
+        fragment.onTicketTypeChanged(screening?.type)
+        enableActionButton(screening != null && fragment.getChosenTicketCount() > 0)
     }
 
     private fun enableActionButton(isEnabled: Boolean) {

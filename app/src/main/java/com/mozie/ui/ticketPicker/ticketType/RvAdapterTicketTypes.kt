@@ -10,10 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mozie.R
 import com.mozie.data.network.model.tickets.TicketType
 
-class RvAdapterTicketTypes(private val ticketTypes: List<TicketType>) :
+class RvAdapterTicketTypes(private var ticketTypes: List<TicketType>) :
     RecyclerView.Adapter<RvAdapterTicketTypes.TicketTypeHolder>() {
 
-    private val chosenTickets: MutableMap<TicketType, Int> = mutableMapOf()
+    private var mListener: OnTicketTypeEvent? = null
+    private val chosenTickets: MutableMap<String, Int> = mutableMapOf()
+
+    abstract class OnTicketTypeEvent {
+        open fun onTicketTypesChanged(count: Int) {}
+    }
 
     inner class TicketTypeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val resources: Resources = itemView.resources
@@ -26,7 +31,7 @@ class RvAdapterTicketTypes(private val ticketTypes: List<TicketType>) :
         fun init(item: TicketType) {
             tvName.text = item.name // todo
             tvPrice.text = resources.getString(R.string.text_price_ft, item.price)
-            tvCounter.text = getTicketCount(item).toString()
+            tvCounter.text = getChosenTicketsSizeByType(item.name!!).toString()
             btnMinus.setOnClickListener {
                 handleMinusClick(item)
             }
@@ -35,26 +40,24 @@ class RvAdapterTicketTypes(private val ticketTypes: List<TicketType>) :
             }
         }
 
-        private fun getTicketCount(ticketType: TicketType): Int {
-            return chosenTickets[ticketType] ?: 0
-        }
-
         private fun handleMinusClick(ticketType: TicketType) {
-            val count = getTicketCount(ticketType)
+            val count = getChosenTicketsSizeByType(ticketType.name!!)
             if (count > 0) {
                 val newValue = count - 1
-                chosenTickets[ticketType] = newValue
+                chosenTickets[ticketType.name] = newValue
+                mListener?.onTicketTypesChanged(getChosenTicketsSize())
             }
-            tvCounter.text = getTicketCount(ticketType).toString()
+            tvCounter.text = getChosenTicketsSizeByType(ticketType.name).toString()
         }
 
         private fun handlePlusClick(ticketType: TicketType) {
-            val count = getTicketCount(ticketType)
+            val count = getChosenTicketsSizeByType(ticketType.name!!)
             if (count < 10) {
                 val newValue = count + 1
-                chosenTickets[ticketType] = newValue
+                chosenTickets[ticketType.name] = newValue
+                mListener?.onTicketTypesChanged(getChosenTicketsSize())
             }
-            tvCounter.text = getTicketCount(ticketType).toString()
+            tvCounter.text = getChosenTicketsSizeByType(ticketType.name).toString()
         }
     }
 
@@ -69,4 +72,26 @@ class RvAdapterTicketTypes(private val ticketTypes: List<TicketType>) :
     }
 
     override fun getItemCount(): Int = ticketTypes.size
+
+    fun setTicketTypes(ticketTypes: List<TicketType>) {
+        this.ticketTypes = ticketTypes
+    }
+
+    fun getChosenTickets() = chosenTickets
+
+    fun getChosenTicketsSizeByType(ticketType: String): Int {
+        return chosenTickets[ticketType] ?: 0
+    }
+
+    fun getChosenTicketsSize(): Int {
+        var count = 0
+        for (ticket in chosenTickets) {
+            count += ticket.value
+        }
+        return count
+    }
+
+    fun setTicketTypeListener(listener: OnTicketTypeEvent) {
+        mListener = listener
+    }
 }
