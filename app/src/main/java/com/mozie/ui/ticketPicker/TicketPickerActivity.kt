@@ -30,7 +30,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 
-
 @AndroidEntryPoint
 class TicketPickerActivity : AppCompatActivity() {
     companion object {
@@ -55,7 +54,21 @@ class TicketPickerActivity : AppCompatActivity() {
         movieTitle = intent.getStringExtra(EXTRA_MOVIE_TITLE) ?: ""
         viewModel.getScreenings(movieId)
         initViews()
-        initData()
+        initObservers()
+    }
+
+    override fun onBackPressed() {
+        when (binding.pager.currentItem) {
+            0 -> {
+                super.onBackPressed()
+            }
+            1 -> {
+                binding.pager.currentItem = 0
+            }
+            else -> {
+                binding.pager.currentItem = 1
+            }
+        }
     }
 
     private fun initViews() {
@@ -111,21 +124,11 @@ class TicketPickerActivity : AppCompatActivity() {
             }
         }
         binding.toolbar.setNavigationOnClickListener {
-            when (binding.pager.currentItem) {
-                0 -> {
-                    finish()
-                }
-                1 -> {
-                    binding.pager.currentItem = 0
-                }
-                else -> {
-                    binding.pager.currentItem = 1
-                }
-            }
+            onBackPressed()
         }
     }
 
-    private fun initData() {
+    private fun initObservers() {
         viewModel.networkError.observe(this, {
             handleError(it)
         })
@@ -145,17 +148,21 @@ class TicketPickerActivity : AppCompatActivity() {
 
     private inner class FadingPagerAdapter(fm: FragmentManager, lifecycle: Lifecycle) :
         FragmentStateAdapter(fm, lifecycle) {
-        val fragments = listOf(
-            TicketTypeFragment.newInstance(),
-            SeatPickerFragment.newInstance(),
-            SummaryFragment.newInstance()
-        )
+        val frTicketType = TicketTypeFragment.newInstance()
+        val frSeatPicker = SeatPickerFragment.newInstance()
+        val frSummary = SummaryFragment.newInstance()
 
         override fun getItemCount(): Int {
-            return fragments.size
+            return 3
         }
 
-        override fun createFragment(position: Int): Fragment = fragments[position]
+        override fun createFragment(position: Int): Fragment {
+            return when (position) {
+                0 -> frTicketType
+                1 -> frSeatPicker
+                else -> frSummary
+            }
+        }
     }
 
     private fun handleError(event: Event<String>) {
@@ -170,7 +177,6 @@ class TicketPickerActivity : AppCompatActivity() {
     }
 
     private fun onCurrentCinemas(cinemas: List<String>) {
-        enableActionButton(cinemas.isNotEmpty())
         val spinnerItems = resources.getStringArray(R.array.cinema_spinner_empty).toMutableList()
         spinnerItems.addAll(cinemas)
         setSpinnerAdapter(spinnerItems, binding.spCinema)
@@ -196,7 +202,6 @@ class TicketPickerActivity : AppCompatActivity() {
     }
 
     private fun onCurrentDates(dates: List<DateTime>) {
-        enableActionButton(dates.isNotEmpty())
         val spinnerItems = resources.getStringArray(R.array.spinner_empty).toMutableList()
         dates.forEach { date ->
             val text = getString(
@@ -224,7 +229,6 @@ class TicketPickerActivity : AppCompatActivity() {
     }
 
     private fun onCurrentTimes(it: List<DateTime>) {
-        enableActionButton(it.isNotEmpty())
         val spinnerItems = resources.getStringArray(R.array.spinner_empty).toMutableList()
         it.forEach { date ->
             val text = getString(R.string.hour_minute_format, date.hourOfDay, date.minuteOfHour)
@@ -248,9 +252,7 @@ class TicketPickerActivity : AppCompatActivity() {
 
     private fun onCurrentScreening(screening: Screening?) {
         enableActionButton(screening != null)
-        screening?.let {
-            Toast.makeText(this, it.id, Toast.LENGTH_SHORT).show()
-        }
+        (binding.pager.adapter as FadingPagerAdapter).frTicketType.onTicketTypeChanged(screening?.type)
     }
 
     private fun enableActionButton(isEnabled: Boolean) {

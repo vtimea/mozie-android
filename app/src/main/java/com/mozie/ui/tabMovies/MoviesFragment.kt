@@ -69,7 +69,6 @@ class MoviesFragment : Fragment(), ItemClickListener<FeaturedMovie> {
         binding.rvSoon.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.rvNow.layoutManager = GridLayoutManager(context, 2)
-
         binding.swipeRefresh.setOnRefreshListener {
             loadMovies()
         }

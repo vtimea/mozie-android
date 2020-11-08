@@ -2,12 +2,14 @@ package com.mozie.ui.details
 
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import com.mozie.R
 import com.mozie.data.network.model.movies.MovieDetail
 import com.mozie.databinding.ActivityMovieDetailsBinding
+import com.mozie.ui.Event
 import com.mozie.ui.details.MovieDetailsActivity.KEYS.KEY_MOVIE_ID
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,6 +41,11 @@ class MovieDetailsActivity : AppCompatActivity() {
         viewModel.getDetails(movieId)
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.no_change, R.anim.slide_down)
+    }
+
     private fun initViews() {
         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
         ft.add(R.id.fragment, detailsFragment)
@@ -51,7 +58,9 @@ class MovieDetailsActivity : AppCompatActivity() {
         viewModel.detail.observe(this, {
             showDetailsFragment(it)
         })
-        // TODO HANDLE ERROR
+        viewModel.networkError.observe(this, {
+            handleError(it)
+        })
     }
 
     private fun showDetailsFragment(movie: MovieDetail) {
@@ -69,8 +78,7 @@ class MovieDetailsActivity : AppCompatActivity() {
         ft.commit()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(R.anim.no_change, R.anim.slide_down)
+    private fun handleError(event: Event<String>) {
+        Toast.makeText(this, event.getContentIfNotHandledOrReturnNull(), Toast.LENGTH_SHORT).show()
     }
 }

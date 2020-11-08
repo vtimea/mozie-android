@@ -19,6 +19,7 @@ class TicketTypeViewModel @ViewModelInject constructor(
 ) : BaseViewModel() {
 
     val networkError: LiveData<Event<String>> by this::mNetworkError
+    val ticketTypes: LiveData<List<TicketType>> by this::mCurrentTicketTypes
 
     private val resources: Resources = context.resources
 
@@ -27,7 +28,11 @@ class TicketTypeViewModel @ViewModelInject constructor(
     private val mAllTicketTypes = MutableLiveData<List<TicketType>>()
     private val mCurrentTicketTypes = MutableLiveData<List<TicketType>>()
 
-    fun onTicketTypeChanged(type: String) {
+    fun onTicketTypeChanged(type: String?) {
+        if (type == null) {
+            mCurrentTicketTypes.value = listOf()
+            return
+        }
         mCurrentTicketTypes.value = filterTicketTypes(type)
     }
 
@@ -54,10 +59,8 @@ class TicketTypeViewModel @ViewModelInject constructor(
     }
 
     private fun filterTicketTypes(type: String): List<TicketType> {
-        val tickets = listOf<TicketType>()
-        mAllTicketTypes.value?.filter {
+        return mAllTicketTypes.value?.filter {
             it.type == type
-        }
-        return tickets
+        } ?: listOf()
     }
 }
