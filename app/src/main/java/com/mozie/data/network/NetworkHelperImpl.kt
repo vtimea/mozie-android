@@ -2,6 +2,7 @@ package com.mozie.data.network
 
 import com.mozie.data.network.model.cinemas.ScheduledScreening
 import com.mozie.data.network.model.cinemas.Screening
+import com.mozie.data.network.model.cinemas.ScreeningRoom
 import com.mozie.data.network.model.login.LoginBody
 import com.mozie.data.network.model.login.LoginResult
 import com.mozie.data.network.model.movies.Cinema
@@ -99,6 +100,19 @@ class NetworkHelperImpl @Inject constructor() : NetworkHelper {
     ): Disposable {
         val observer = DefaultObserver(callback)
         apiService.getTicketTypes(accessToken, type)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(observer)
+        return observer.disposable!!
+    }
+
+    override fun getRoomForScreening(
+        accessToken: String,
+        screeningId: String,
+        callback: Callback<ScreeningRoom>
+    ): Disposable {
+        val observer = DefaultObserver(callback)
+        apiService.getRoomForScreening(accessToken, screeningId)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(observer)

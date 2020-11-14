@@ -3,6 +3,7 @@ package com.mozie.data.network
 
 import com.mozie.data.network.model.cinemas.ScheduledScreening
 import com.mozie.data.network.model.cinemas.Screening
+import com.mozie.data.network.model.cinemas.ScreeningRoom
 import com.mozie.data.network.model.login.LoginResult
 import com.mozie.data.network.model.movies.Cinema
 import com.mozie.data.network.model.movies.MovieDetail
@@ -41,5 +42,11 @@ interface NetworkHelper {
         accessToken: String,
         type: String?,
         callback: Callback<List<TicketType>>
+    ): Disposable
+
+    fun getRoomForScreening(
+        accessToken: String,
+        screeningId: String,
+        callback: Callback<ScreeningRoom>
     ): Disposable
 }

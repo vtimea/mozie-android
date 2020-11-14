@@ -98,4 +98,7 @@ dependencies {
 
     // Circle imageview
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // Zoom layout
+    implementation 'com.otaliastudios:zoomlayout:1.6.1'
 }

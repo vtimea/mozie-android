@@ -46,7 +46,8 @@
     </string-array>
     <string name="screening_voice">(HANG: %1$s)</string>
     <string name="year_month_day_format">%1$04d.%2$02d.%3$02d</string>
-    <string name="hour_minute_format">%1$02d:%2$02d (%3$s)</string>
+    <string name="hour_minute_type_format">%1$02d:%2$02d (%3$s)</string>
+    <string name="hour_minute_format">%1$02d:%2$02d</string>
     <string name="btn_next">Következő</string>
     <string name="btn_pay">Fizetés</string>
 
@@ -55,4 +56,10 @@
     <string name="toolbar_ticket_summary">Összegzés</string>
     <string name="text_price_ft">%1$d Ft</string>
     <string name="empty_text_ticket_picker">Válassz ki egy vetítést hogy lásd a jegytípusokat.</string>
+
+    <!--    Seat picker    -->
+    <string name="taken_text">Foglalt</string>
+    <string name="available_text">Üres</string>
+    <string name="chosen_text">Kiválasztott</string>
+    <string name="empty_text_seat_picker">Válassz ki egy vetítést hogy lásd a termet.</string>
 </resources>

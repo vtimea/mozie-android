@@ -42,6 +42,7 @@ class TicketPickerActivity : AppCompatActivity() {
 
     private val ticketViewModel: TicketFilterViewModel by viewModels()
     private val ticketTypeViewModel: TicketTypeViewModel by viewModels()
+    private val screeningRoomViewModel: ScreeningRoomViewModel by viewModels()
     private lateinit var binding: ActivityTicketPickerBinding
 
     private lateinit var movieId: String
@@ -147,7 +148,9 @@ class TicketPickerActivity : AppCompatActivity() {
             onCurrentScreening(it)
         })
         ticketTypeViewModel.userSelectedTickets.observe(this, {
-            enableActionButton(ticketViewModel.currentScreening.value != null && ticketTypeViewModel.getChosenTicketsSize() > 0)
+            val ticketCount = ticketTypeViewModel.getChosenTicketCount()
+            screeningRoomViewModel.onTicketCountChange(ticketCount)
+            enableActionButton(ticketViewModel.currentScreening.value != null && ticketCount > 0)
         })
     }
 
@@ -246,7 +249,7 @@ class TicketPickerActivity : AppCompatActivity() {
             val date = event.second
             val text =
                 getString(
-                    R.string.hour_minute_format,
+                    R.string.hour_minute_type_format,
                     date.hourOfDay,
                     date.minuteOfHour,
                     type.toUpperCase()
@@ -271,7 +274,8 @@ class TicketPickerActivity : AppCompatActivity() {
 
     private fun onCurrentScreening(screening: Screening?) {
         ticketTypeViewModel.onTicketTypeChanged(screening?.type)
-        enableActionButton(screening != null && ticketTypeViewModel.getChosenTicketsSize() > 0)
+        enableActionButton(screening != null && ticketTypeViewModel.getChosenTicketCount() > 0)
+        screeningRoomViewModel.getRoomForScreening(screening?.id)
     }
 
     private fun enableActionButton(isEnabled: Boolean) {

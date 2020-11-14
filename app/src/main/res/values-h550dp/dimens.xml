@@ -15,4 +15,8 @@
     <dimen name="poster_height">230dp</dimen>
     <dimen name="detail_image_height">275dp</dimen>
     <dimen name="schedule_poster_height">115dp</dimen>
+
+    <dimen name="image_menu_item_vertical_padding">9dp</dimen>
+    <dimen name="seat_view_size">27dp</dimen>
+    <dimen name="seat_view_corner_radius">4dp</dimen>
 </resources>

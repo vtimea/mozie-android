@@ -2,6 +2,7 @@ package com.mozie.data.network
 
 import com.mozie.data.network.model.cinemas.ScheduledScreening
 import com.mozie.data.network.model.cinemas.Screening
+import com.mozie.data.network.model.cinemas.ScreeningRoom
 import com.mozie.data.network.model.login.LoginBody
 import com.mozie.data.network.model.login.LoginResult
 import com.mozie.data.network.model.movies.Cinema
@@ -45,4 +46,10 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Query("type") type: String?
     ): Observable<List<TicketType>>
+
+    @GET("/api/screenings/room")
+    fun getRoomForScreening(
+        @Header("Authorization") token: String,
+        @Query("screeningId") screeningId: String
+    ): Observable<ScreeningRoom>
 }

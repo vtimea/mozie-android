@@ -12,4 +12,7 @@
 
     <color name="colorTextPrimary">#FFFFFF</color>
     <color name="colorTextSecondary">#9F9F9F</color>
+
+    <color name="colorChosen">#35FF69</color>
+    <color name="colorTaken">@color/colorPrimary</color>
 </resources>

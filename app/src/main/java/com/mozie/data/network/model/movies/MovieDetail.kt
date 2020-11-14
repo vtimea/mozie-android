@@ -31,4 +31,8 @@ class MovieDetail {
     @SerializedName("actors")
     @Expose
     val actors: List<Actor>? = null
+
+    @SerializedName("active")
+    @Expose
+    val isActive: Boolean? = null
 }

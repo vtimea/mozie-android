@@ -37,7 +37,7 @@ class TicketTypeViewModel @ViewModelInject constructor(
         mCurrentTicketTypes.value = filterTicketTypes(type)
     }
 
-    fun getChosenTicketsSize(): Int {
+    fun getChosenTicketCount(): Int {
         var count = 0
         for (ticket in userSelectedTickets.value ?: mutableMapOf()) {
             count += ticket.value
