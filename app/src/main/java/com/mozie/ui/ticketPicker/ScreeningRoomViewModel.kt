@@ -20,12 +20,13 @@ class ScreeningRoomViewModel @ViewModelInject constructor(
 ) : BaseViewModel() {
     val networkError: LiveData<Event<String>> by this::mNetworkError
     val seats: LiveData<ScreeningRoom> by this::mSeats
+    val selectedSeats: LiveData<MutableList<Seat>> by this::mSelectedSeats
 
     private val resources: Resources = context.resources
 
     private val mNetworkError = MutableLiveData<Event<String>>()
     private val mSeats = MutableLiveData<ScreeningRoom>()
-    private val mSelectedSeats: MutableList<Seat> = mutableListOf()
+    private val mSelectedSeats = MutableLiveData<MutableList<Seat>>(mutableListOf())
     private var mSelectionLimit: Int = 0
 
     fun onTicketCountChange(count: Int) {
@@ -33,19 +34,23 @@ class ScreeningRoomViewModel @ViewModelInject constructor(
     }
 
     fun onSeatSelected(seat: Seat): Boolean {
-        if (mSelectedSeats.size + 1 <= mSelectionLimit) {
-            mSelectedSeats.add(seat)
+        if (mSelectedSeats.value!!.size + 1 <= mSelectionLimit) {
+            val newList = mSelectedSeats.value ?: mutableListOf()
+            newList.add(seat)
+            mSelectedSeats.value = newList
             return true
         }
         return false
     }
 
     fun onSeatDeselected(seat: Seat) {
-        mSelectedSeats.remove(seat)
+        val newList = mSelectedSeats.value ?: mutableListOf()
+        newList.remove(seat)
+        mSelectedSeats.value = newList
     }
 
     fun getRoomForScreening(screeningId: String?) {
-        mSelectedSeats.clear()
+        mSelectedSeats.value = mutableListOf()
         if (screeningId == null) {
             mSeats.value = null
             return
@@ -66,6 +71,10 @@ class ScreeningRoomViewModel @ViewModelInject constructor(
                 })
         )
     }
+
+    fun getSelectedSeatCount() = mSelectedSeats.value!!.size
+
+    fun getSeatCountLimit() = mSelectionLimit
 
     private fun handleError() {
         mNetworkError.value = Event(resources.getString(R.string.error_network_problem))

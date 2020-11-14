@@ -89,6 +89,7 @@ class TicketPickerActivity : AppCompatActivity() {
                 when (position) {
                     0 -> {
                         binding.toolbar.title = getString(R.string.toolbar_ticket_type_picker)
+                        enableActionButton(ticketViewModel.currentScreening.value != null && ticketTypeViewModel.getChosenTicketCount() > 0)
                     }
                     1 -> {
                         binding.toolbar.title = getString(R.string.toolbar_seat_picker)
@@ -99,6 +100,7 @@ class TicketPickerActivity : AppCompatActivity() {
                                 toggleBottomCard(true)
                             }
                         }
+                        enableActionButton(screeningRoomViewModel.getSelectedSeatCount() == screeningRoomViewModel.getSeatCountLimit())
                     }
                     else -> {
                         binding.toolbar.title = getString(R.string.toolbar_ticket_summary)
@@ -148,9 +150,16 @@ class TicketPickerActivity : AppCompatActivity() {
             onCurrentScreening(it)
         })
         ticketTypeViewModel.userSelectedTickets.observe(this, {
-            val ticketCount = ticketTypeViewModel.getChosenTicketCount()
-            screeningRoomViewModel.onTicketCountChange(ticketCount)
-            enableActionButton(ticketViewModel.currentScreening.value != null && ticketCount > 0)
+            if (binding.pager.currentItem == 0) {
+                val ticketCount = ticketTypeViewModel.getChosenTicketCount()
+                screeningRoomViewModel.onTicketCountChange(ticketCount)
+                enableActionButton(ticketViewModel.currentScreening.value != null && ticketCount > 0)
+            }
+        })
+        screeningRoomViewModel.selectedSeats.observe(this, {
+            if (binding.pager.currentItem == 1) {
+                enableActionButton(screeningRoomViewModel.getSelectedSeatCount() == screeningRoomViewModel.getSeatCountLimit())
+            }
         })
     }
 
