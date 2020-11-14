@@ -101,4 +101,7 @@ dependencies {
 
     // Zoom layout
     implementation 'com.otaliastudios:zoomlayout:1.6.1'
+
+    // Braintree drop-in UI
+    implementation 'com.braintreepayments.api:drop-in:4.6.0'
 }
