@@ -84,8 +84,8 @@ class SeatPickerFragment : Fragment() {
         binding.gridSeats.removeAllViews()
         binding.gridSeats.columnCount = numCol
         binding.gridSeats.rowCount = numRow
-        for (i in 1 until numCol) {
-            for (j in 1 until numRow) {
+        for (i in 1..numCol) {
+            for (j in 1..numRow) {
                 val seat: Seat = seats.find { it.col == i && it.row == j }!!
                 val checkBox = AppCompatCheckBox(requireContext())
                 when (seat.available) {
