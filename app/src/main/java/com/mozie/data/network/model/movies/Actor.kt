@@ -8,7 +8,7 @@ class Actor {
     @Expose
     val name: String? = null
 
-    @SerializedName("pictueUrl")
+    @SerializedName("pictureUrl")
     @Expose
     val pictueUrl: String? = null
 }
