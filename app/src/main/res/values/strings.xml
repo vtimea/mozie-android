@@ -62,4 +62,13 @@
     <string name="available_text">Üres</string>
     <string name="chosen_text">Kiválasztott</string>
     <string name="empty_text_seat_picker">Válassz ki egy vetítést hogy lásd a termet.</string>
+
+    <!--    Ticket summary    -->
+    <string name="summary_movie_name_header">%1$s - %2$s</string>
+    <string name="summary_screening_date_format">%1$04d.%2$02d.%3$02d %4$02d:%5$02d</string>
+    <string name="summary_empty_header">---</string>
+    <string name="title_cart">Kosár</string>
+    <string name="title_sum">Összesen:</string>
+    <string name="price_huf">%1$d Ft</string>
+    <string name="quantity">%1$d db</string>
 </resources>
