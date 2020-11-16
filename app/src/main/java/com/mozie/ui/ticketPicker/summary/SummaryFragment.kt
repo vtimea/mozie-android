@@ -83,7 +83,6 @@ class SummaryFragment : Fragment() {
     }
 
     private fun setSelectedTickets(tickets: Map<TicketType, Int>) {
-        var sumPrice: Int = 0
         binding.summaryTickets.removeAllViews()
         for (ticketType in tickets.keys) {
             val quantity = tickets[ticketType]
@@ -92,7 +91,6 @@ class SummaryFragment : Fragment() {
             }
             val price = ticketType.price ?: 0
             val view = layoutInflater.inflate(R.layout.view_ticket_summary_row, null)
-            sumPrice += quantity * price
             view.findViewById<TextView>(R.id.tvTicketName).text = ticketType.name   //TODO
             view.findViewById<TextView>(R.id.tvTicketPrice).text =
                 getString(R.string.price_huf, price)
@@ -100,7 +98,7 @@ class SummaryFragment : Fragment() {
                 getString(R.string.quantity, quantity)
             binding.summaryTickets.addView(view)
         }
-        binding.tvSumPrice.text = getString(R.string.price_huf, sumPrice)
+        binding.tvSumPrice.text = getString(R.string.price_huf, viewModelTicketType.getSumPrice())
     }
 
     private fun onTicketChange(

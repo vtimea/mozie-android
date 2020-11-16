@@ -8,6 +8,9 @@ import com.mozie.data.network.model.login.LoginResult
 import com.mozie.data.network.model.movies.Cinema
 import com.mozie.data.network.model.movies.MovieDetail
 import com.mozie.data.network.model.movies.MoviesResponse
+import com.mozie.data.network.model.tickets.PaymentResult
+import com.mozie.data.network.model.tickets.ResponseClientToken
+import com.mozie.data.network.model.tickets.TicketOrder
 import com.mozie.data.network.model.tickets.TicketType
 import com.mozie.data.network.utils.Callback
 import com.mozie.data.network.utils.DefaultObserver
@@ -113,6 +116,32 @@ class NetworkHelperImpl @Inject constructor() : NetworkHelper {
     ): Disposable {
         val observer = DefaultObserver(callback)
         apiService.getRoomForScreening(accessToken, screeningId)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(observer)
+        return observer.disposable!!
+    }
+
+    override fun getClientToken(
+        accessToken: String,
+        ticketOrder: TicketOrder,
+        callback: Callback<ResponseClientToken>
+    ): Disposable {
+        val observer = DefaultObserver(callback)
+        apiService.getClientToken(accessToken, ticketOrder)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(observer)
+        return observer.disposable!!
+    }
+
+    override fun sendNonce(
+        accessToken: String,
+        paymentResult: PaymentResult,
+        callback: Callback<Boolean>
+    ): Disposable {
+        val observer = DefaultObserver(callback)
+        apiService.sendNonce(accessToken, paymentResult)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(observer)

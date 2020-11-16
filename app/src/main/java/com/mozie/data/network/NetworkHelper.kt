@@ -8,6 +8,9 @@ import com.mozie.data.network.model.login.LoginResult
 import com.mozie.data.network.model.movies.Cinema
 import com.mozie.data.network.model.movies.MovieDetail
 import com.mozie.data.network.model.movies.MoviesResponse
+import com.mozie.data.network.model.tickets.PaymentResult
+import com.mozie.data.network.model.tickets.ResponseClientToken
+import com.mozie.data.network.model.tickets.TicketOrder
 import com.mozie.data.network.model.tickets.TicketType
 import com.mozie.data.network.utils.Callback
 import io.reactivex.disposables.Disposable
@@ -48,5 +51,17 @@ interface NetworkHelper {
         accessToken: String,
         screeningId: String,
         callback: Callback<ScreeningRoom>
+    ): Disposable
+
+    fun getClientToken(
+        accessToken: String,
+        ticketOrder: TicketOrder,
+        callback: Callback<ResponseClientToken>
+    ): Disposable
+
+    fun sendNonce(
+        accessToken: String,
+        paymentResult: PaymentResult,
+        callback: Callback<Boolean>
     ): Disposable
 }

@@ -45,7 +45,7 @@ class LoginViewModel @ViewModelInject constructor(
                             onError(ErrorTypes.Unknown)
                             return
                         }
-                        dataManager.prefsHelper.saveAccessToken(token, expiration)
+                        dataManager.prefsHelper.saveAccessToken(token, expiration, userId)
                         onLoginSuccess()
                     }
 

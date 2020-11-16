@@ -8,6 +8,9 @@ import com.mozie.data.network.model.login.LoginResult
 import com.mozie.data.network.model.movies.Cinema
 import com.mozie.data.network.model.movies.MovieDetail
 import com.mozie.data.network.model.movies.MoviesResponse
+import com.mozie.data.network.model.tickets.PaymentResult
+import com.mozie.data.network.model.tickets.ResponseClientToken
+import com.mozie.data.network.model.tickets.TicketOrder
 import com.mozie.data.network.model.tickets.TicketType
 import io.reactivex.Observable
 import retrofit2.http.*
@@ -52,4 +55,16 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Query("screeningId") screeningId: String
     ): Observable<ScreeningRoom>
+
+    @POST("/api/tickets/payment")
+    fun getClientToken(
+        @Header("Authorization") token: String,
+        @Body ticketOrder: TicketOrder
+    ): Observable<ResponseClientToken>
+
+    @POST("/api/tickets/payment/nonce")
+    fun sendNonce(
+        @Header("Authorization") token: String,
+        @Body paymentResult: PaymentResult
+    ): Observable<Boolean>
 }

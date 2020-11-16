@@ -49,6 +49,14 @@ class ScreeningRoomViewModel @ViewModelInject constructor(
         mSelectedSeats.value = newList
     }
 
+    fun getSelectedSeatIds(): List<Int> {
+        val seatIds = mutableListOf<Int>()
+        for (seat in mSelectedSeats.value ?: listOf()) {
+            seatIds.add(seat.id ?: continue)
+        }
+        return seatIds
+    }
+
     fun getRoomForScreening(screeningId: String?) {
         mSelectedSeats.value = mutableListOf()
         if (screeningId == null) {

@@ -1,6 +1,7 @@
 package com.mozie.ui.ticketPicker
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -19,8 +20,12 @@ import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.braintreepayments.api.dropin.DropInActivity
+import com.braintreepayments.api.dropin.DropInRequest
+import com.braintreepayments.api.dropin.DropInResult
 import com.mozie.R
 import com.mozie.data.network.model.cinemas.Screening
+import com.mozie.data.network.model.tickets.TicketOrder
 import com.mozie.databinding.ActivityTicketPickerBinding
 import com.mozie.ui.Event
 import com.mozie.ui.ticketPicker.seatpicker.SeatPickerFragment
@@ -31,6 +36,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 
+
 @AndroidEntryPoint
 class TicketPickerActivity : AppCompatActivity() {
     companion object {
@@ -38,11 +44,13 @@ class TicketPickerActivity : AppCompatActivity() {
         const val EXTRA_MOVIE_TITLE = "EXTR_MOVIE_TITLE"
         const val ANIMATION_DURATION: Long = 400L
         const val ANIMATION_DELAY: Long = 100L
+        const val REQUEST_CODE_DROPIN = 11
     }
 
     private val ticketViewModel: TicketFilterViewModel by viewModels()
     private val ticketTypeViewModel: TicketTypeViewModel by viewModels()
     private val screeningRoomViewModel: ScreeningRoomViewModel by viewModels()
+    private val ticketPaymentViewModel: TicketPaymentViewModel by viewModels()
     private lateinit var binding: ActivityTicketPickerBinding
 
     private lateinit var movieId: String
@@ -125,7 +133,7 @@ class TicketPickerActivity : AppCompatActivity() {
         }
         binding.btnPay.setOnClickListener {
             if (binding.pager.currentItem == 2) {
-                // TODO START PAYMENT
+                startPayment()
             }
         }
         binding.toolbar.setNavigationOnClickListener {
@@ -160,6 +168,9 @@ class TicketPickerActivity : AppCompatActivity() {
             if (binding.pager.currentItem == 1) {
                 enableActionButton(screeningRoomViewModel.getSelectedSeatCount() == screeningRoomViewModel.getSeatCountLimit())
             }
+        })
+        ticketPaymentViewModel.showDropInUI.observe(this, { resp ->
+            resp.clientToken?.let { it1 -> showDropInUI(it1) }
         })
     }
 
@@ -310,5 +321,38 @@ class TicketPickerActivity : AppCompatActivity() {
         transition.addTarget(binding.bottomCard)
         TransitionManager.beginDelayedTransition(binding.parent, transition)
         binding.bottomCard.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+    private fun startPayment() {
+        val ticketOrder = TicketOrder()
+        ticketOrder.ticketTypes = ticketTypeViewModel.getChosenTicketIds()
+        ticketOrder.seats = screeningRoomViewModel.getSelectedSeatIds()
+        ticketOrder.sumAmount = ticketTypeViewModel.getSumPrice()
+        ticketPaymentViewModel.startPayment(ticketOrder)
+    }
+
+    private fun showDropInUI(clientToken: String) {
+        val dropInRequest = DropInRequest().clientToken(clientToken)
+        startActivityForResult(dropInRequest.getIntent(this), REQUEST_CODE_DROPIN)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_DROPIN && data != null) {
+            when (resultCode) {
+                RESULT_OK -> {
+                    val result: DropInResult =
+                        data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT)!!
+                    ticketPaymentViewModel.sendNonce(result.paymentMethodNonce!!) //todo
+                }
+                RESULT_CANCELED -> {
+                    // the user canceled
+                }
+                else -> {
+                    // handle errors here, an exception may be available in todo
+                    val error = data.getSerializableExtra(DropInActivity.EXTRA_ERROR) as Exception
+                }
+            }
+        }
     }
 }

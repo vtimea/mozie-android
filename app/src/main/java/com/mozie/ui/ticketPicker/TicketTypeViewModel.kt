@@ -39,10 +39,39 @@ class TicketTypeViewModel @ViewModelInject constructor(
 
     fun getChosenTicketCount(): Int {
         var count = 0
-        for (ticket in userSelectedTickets.value ?: mutableMapOf()) {
+        for (ticket in userSelectedTickets.value ?: emptyMap()) {
             count += ticket.value
         }
         return count
+    }
+
+    fun getSumPrice(): Int {
+        var sumPrice = 0
+        for (ticket in userSelectedTickets.value ?: emptyMap()) {
+            val quantity = ticket.value
+            val type: TicketType = ticketTypes.value?.findLast { it.name == ticket.key } ?: continue
+            if (quantity == 0) {
+                continue
+            }
+            val price = type.price ?: 0
+            sumPrice += quantity * price
+        }
+        return sumPrice
+    }
+
+    fun getChosenTicketIds(): List<Int> {
+        val ticketIds = mutableListOf<Int>()
+        for (ticket in userSelectedTickets.value ?: emptyMap()) {
+            val quantity = ticket.value
+            val type: TicketType = ticketTypes.value?.findLast { it.name == ticket.key } ?: continue
+            if (quantity == 0) {
+                continue
+            }
+            for (i in 1..quantity) {
+                type.id?.let { ticketIds.add(it) }
+            }
+        }
+        return ticketIds
     }
 
     fun getTicketTypes() {
