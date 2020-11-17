@@ -11,6 +11,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorShimmerLight" />
+        android:background="@color/colorShimmer" />
 
 </androidx.cardview.widget.CardView>
