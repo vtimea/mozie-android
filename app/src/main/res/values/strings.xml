@@ -74,4 +74,12 @@
     <string name="error_braintree">Hiba történt fizetés közben.</string>
     <string name="text_successful_payment">Sikeres jegyvásárlás!</string>
     <string name="text_failed_payment">Sikertelen vásárlás.</string>
+
+    <!--    Ticket-->
+    <string name="date_title">Időpont:</string>
+    <string name="price_title">Ár:</string>
+    <string name="title_quantity">Mennyiség:</string>
+    <string name="room_title">Terem</string>
+    <string name="row_title">Sor</string>
+    <string name="seat_title">Szék</string>
 </resources>

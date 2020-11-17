@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:cardCornerRadius="10dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+        android:weightSum="5">
+
+        <ImageView
+            android:id="@+id/header_image"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:scaleType="centerCrop"
+            tools:src="@color/colorPrimary" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_medium">
+
+            <TextView
+                android:id="@+id/item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"
+                tools:text="A film cime cime" />
+
+            <TextView
+                android:id="@+id/cinema_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_title"
+                android:textSize="@dimen/text_size_small"
+                tools:text="West End - Budapest" />
+
+            <TextView
+                android:id="@+id/date_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cinema_name"
+                android:layout_marginEnd="@dimen/margin_between_text"
+                android:paddingTop="@dimen/margin_medium"
+                android:text="@string/date_title"
+                android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:id="@+id/date_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cinema_name"
+                android:layout_toEndOf="@id/date_title"
+                android:paddingTop="@dimen/margin_medium"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_small"
+                tools:text="2019.09.12. 18:00 " />
+
+            <TextView
+                android:id="@+id/type_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/date_title"
+                android:layout_marginEnd="@dimen/margin_between_text"
+                android:paddingTop="@dimen/margin_medium"
+                android:text="@string/price_title"
+                android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:id="@+id/type_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/date_title"
+                android:layout_toEndOf="@id/type_title"
+                android:paddingTop="@dimen/margin_medium"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_small"
+                tools:text="1420 Ft" />
+
+            <TextView
+                android:id="@+id/quantity_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/type_title"
+                android:layout_marginEnd="@dimen/margin_between_text"
+                android:paddingTop="@dimen/margin_medium"
+                android:text="@string/title_quantity"
+                android:textSize="@dimen/text_size_small"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/quantity_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/type_title"
+                android:layout_toEndOf="@id/quantity_title"
+                android:paddingTop="@dimen/margin_medium"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_small"
+                android:visibility="gone"
+                tools:text="2 db" />
+
+            <LinearLayout
+                android:id="@+id/seatLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/quantity_title"
+                android:divider="@drawable/divider"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium"
+                android:showDividers="middle"
+                android:visibility="visible"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/room_title"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <TextView
+                        android:id="@+id/room"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_small"
+                        tools:text="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/row_title"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <TextView
+                        android:id="@+id/row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_small"
+                        tools:text="5" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/seat_title"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <TextView
+                        android:id="@+id/col"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_small"
+                        tools:text="4" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/qrcode"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_below="@id/seatLayout"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small"
+                tools:src="@color/colorPrimary" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/ticket_item_height"
+    android:orientation="vertical"
+    app:cardCornerRadius="@dimen/button_corner_radius"
+    app:cardUseCompatPadding="true"
+    app:layout_goneMarginTop="@dimen/margin_small">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/header_image"
+            android:layout_width="@dimen/ticket_item_width"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:scaleType="centerCrop"
+            tools:src="@color/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/header_image"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_small">
+
+            <TextView
+                android:id="@+id/item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"
+                tools:text="A film cime cime" />
+
+            <TextView
+                android:id="@+id/movie_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_small"
+                tools:text="2019.09.08. 18:00" />
+
+            <TextView
+                android:id="@+id/cinema"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="West End - Budapest" />
+
+            <TextView
+                android:id="@+id/room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="2.terem" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/item_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/margin_small"
+            tools:text="2 db" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

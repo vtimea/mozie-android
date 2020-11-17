@@ -6,6 +6,7 @@
     <dimen name="text_size_extra_large">31sp</dimen>
 
     <dimen name="toolbar_padding">9dp</dimen>
+    <dimen name="margin_between_text">2dp</dimen>
     <dimen name="margin_small">7dp</dimen>
     <dimen name="margin_medium">14dp</dimen>
     <dimen name="margin_large">18dp</dimen>
@@ -19,4 +20,8 @@
     <dimen name="image_menu_item_vertical_padding">7dp</dimen>
     <dimen name="seat_view_size">21dp</dimen>
     <dimen name="seat_view_corner_radius">3dp</dimen>
+
+    <dimen name="dialog_image_size">225dp</dimen>
+    <dimen name="ticket_item_height">225dp</dimen>
+    <dimen name="ticket_item_width">75dp</dimen>
 </resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/ticket_item_height"
+    android:orientation="vertical"
+    app:cardCornerRadius="@dimen/button_corner_radius"
+    app:cardUseCompatPadding="true"
+    app:layout_goneMarginTop="@dimen/margin_small">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorShimmerLight" />
+
+</androidx.cardview.widget.CardView>
