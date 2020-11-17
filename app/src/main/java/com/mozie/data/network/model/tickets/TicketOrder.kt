@@ -4,10 +4,6 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 class TicketOrder {
-    @SerializedName("userId")
-    @Expose
-    var userId: String? = null
-
     @SerializedName("ticketTypes")
     @Expose
     var ticketTypes: List<Int>? = null
@@ -26,8 +22,6 @@ class TicketOrder {
         if (javaClass != other?.javaClass) return false
 
         other as TicketOrder
-
-        if (userId != other.userId) return false
         if (ticketTypes != other.ticketTypes) return false
         if (seats != other.seats) return false
         if (sumAmount != other.sumAmount) return false
@@ -36,8 +30,7 @@ class TicketOrder {
     }
 
     override fun hashCode(): Int {
-        var result = userId?.hashCode() ?: 0
-        result = 31 * result + (ticketTypes?.hashCode() ?: 0)
+        var result = ticketTypes?.hashCode() ?: 0
         result = 31 * result + (seats?.hashCode() ?: 0)
         result = 31 * result + sumAmount
         return result

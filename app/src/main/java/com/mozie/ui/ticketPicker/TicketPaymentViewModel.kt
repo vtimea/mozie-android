@@ -39,9 +39,7 @@ class TicketPaymentViewModel @ViewModelInject constructor(
 
     fun startPayment(ticketOrder: TicketOrder) {
         mLoading.value = true
-        val userId = dataManager.prefsHelper.getUserId() ?: ""
         val token = dataManager.prefsHelper.getAccessToken() ?: ""
-        ticketOrder.userId = userId
         if (mClientToken != null && mTicketOrder == ticketOrder) {
             mShowDropInUI.value = Event(mClientToken!!)
             return
