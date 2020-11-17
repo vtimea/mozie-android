@@ -82,6 +82,9 @@ class TicketPickerActivity : AppCompatActivity() {
                 binding.pager.currentItem = 0
             }
             else -> {
+                (binding.pager.adapter as FadingPagerAdapter).frSeatPicker.setSeatPickerVisibility(
+                    true
+                )
                 binding.pager.currentItem = 1
             }
         }
@@ -132,6 +135,9 @@ class TicketPickerActivity : AppCompatActivity() {
                     binding.pager.currentItem = 1
                 }
                 1 -> {
+                    (binding.pager.adapter as FadingPagerAdapter).frSeatPicker.setSeatPickerVisibility(
+                        false
+                    )
                     binding.pager.currentItem = 2
                 }
             }

@@ -30,6 +30,14 @@ class SeatPickerFragment : Fragment() {
     private lateinit var viewModelTicketFilter: TicketFilterViewModel
     private lateinit var viewModelRoom: ScreeningRoomViewModel
 
+    fun setSeatPickerVisibility(visible: Boolean) {
+        if (visible) {
+            binding.seatsZoomLayout.visibility = View.VISIBLE
+        } else {
+            binding.seatsZoomLayout.visibility = View.INVISIBLE
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,7 +65,13 @@ class SeatPickerFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        binding.seatsZoomLayout.setZoomEnabled(true)
         viewModelRoom.getRoomForScreening(viewModelTicketFilter.currentScreening.value?.id)
+    }
+
+    override fun onPause() {
+        binding.seatsZoomLayout.setZoomEnabled(false)
+        super.onPause()
     }
 
     private fun initViews() {}
@@ -114,6 +128,7 @@ class SeatPickerFragment : Fragment() {
         params.width = displayMetrics.widthPixels
         params.height = LinearLayout.LayoutParams.WRAP_CONTENT
         binding.canvas.layoutParams = params
+        binding.seatsZoomLayout.zoomTo(0.9f, true)
     }
 
     private fun onSeatSelected(checkBox: AppCompatCheckBox, seat: Seat) {
