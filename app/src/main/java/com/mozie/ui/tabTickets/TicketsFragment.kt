@@ -40,9 +40,15 @@ class TicketsFragment : Fragment() {
 
     private fun initObservers() {
         viewModel.tickets.observe(viewLifecycleOwner, {
-            binding.rvTickets.adapter = AdapterTicketsList(it)
             showLoading(false)
-            //todo empty view
+            if (it.isEmpty()) {
+                binding.rvTickets.visibility = View.GONE
+                binding.emptyLayout.visibility = View.VISIBLE
+            } else {
+                binding.rvTickets.visibility = View.VISIBLE
+                binding.emptyLayout.visibility = View.GONE
+                binding.rvTickets.adapter = AdapterTicketsList(it)
+            }
         })
     }
 

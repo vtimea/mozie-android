@@ -35,8 +35,8 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/schedule_poster_height"
+            android:layout_height="@dimen/schedule_poster_height"
             android:src="@drawable/empty_cinema_image" />
 
         <TextView
