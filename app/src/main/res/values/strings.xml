@@ -72,4 +72,6 @@
     <string name="price_huf">%1$d Ft</string>
     <string name="quantity">%1$d db</string>
     <string name="error_braintree">Hiba történt fizetés közben.</string>
+    <string name="text_successful_payment">Sikeres jegyvásárlás!</string>
+    <string name="text_failed_payment">Sikertelen vásárlás.</string>
 </resources>

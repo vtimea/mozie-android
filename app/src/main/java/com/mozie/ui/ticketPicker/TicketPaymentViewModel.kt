@@ -24,21 +24,21 @@ class TicketPaymentViewModel @ViewModelInject constructor(
 ) : BaseViewModel() {
     val networkError: LiveData<Event<String>> by this::mNetworkError
     val showDropInUI: LiveData<Event<ResponseClientToken>> by this::mShowDropInUI
-    val loading: LiveData<Event<Boolean>> by this::mLoading
+    val loading: LiveData<Boolean> by this::mLoading
     val paymentResultEvent: LiveData<Event<Boolean>> by this::mPaymentResultEvent
 
     private val resources: Resources = context.resources
 
     private val mNetworkError = MutableLiveData<Event<String>>()
     private val mShowDropInUI = MutableLiveData<Event<ResponseClientToken>>()
-    private val mLoading = MutableLiveData<Event<Boolean>>()
+    private val mLoading = MutableLiveData<Boolean>()
     private val mPaymentResultEvent = MutableLiveData<Event<Boolean>>()
 
     private var mClientToken: ResponseClientToken? = null
     private var mTicketOrder: TicketOrder? = null
 
     fun startPayment(ticketOrder: TicketOrder) {
-        mLoading.value = Event(true)
+        mLoading.value = true
         val userId = dataManager.prefsHelper.getUserId() ?: ""
         val token = dataManager.prefsHelper.getAccessToken() ?: ""
         ticketOrder.userId = userId
@@ -55,7 +55,7 @@ class TicketPaymentViewModel @ViewModelInject constructor(
             }
 
             override fun returnError(t: Throwable) {
-                onPaymentFinished()
+                onPaymentFinished(false)
                 handleError()
             }
         }))
@@ -75,7 +75,7 @@ class TicketPaymentViewModel @ViewModelInject constructor(
     }
 
     fun onDropInResultError(exception: Exception) {
-        onPaymentFinished()
+        onPaymentFinished(false)
         handleError(exception.localizedMessage)
     }
 
@@ -88,25 +88,26 @@ class TicketPaymentViewModel @ViewModelInject constructor(
         disposables.add(dataManager.networkHelper.sendNonce(token, paymentResult, object :
             Callback<Boolean>() {
             override fun returnResult(t: Boolean) {
-                onPaymentFinished()
                 Log.i("dl0csh", "PAYMENT SUCCESS = $t")
+                onPaymentFinished(t)
             }
 
             override fun returnError(t: Throwable) {
-                onPaymentFinished()
+                onPaymentFinished(false)
                 handleError()
             }
         }))
     }
 
     private fun onPaymentCanceled() {
-        mLoading.value = Event(false)
+        mLoading.value = false
     }
 
-    private fun onPaymentFinished() {
+    private fun onPaymentFinished(successful: Boolean) {
         mClientToken = null
         mTicketOrder = null
-        mLoading.value = Event(false)
+        mPaymentResultEvent.value = Event(successful)
+        mLoading.value = false
     }
 
     private fun handleError(message: String? = null) {

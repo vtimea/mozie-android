@@ -1,14 +1,15 @@
 package com.mozie.ui.ticketPicker
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
+import android.view.Window
+import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -28,6 +29,7 @@ import com.mozie.data.network.model.cinemas.Screening
 import com.mozie.data.network.model.tickets.TicketOrder
 import com.mozie.databinding.ActivityTicketPickerBinding
 import com.mozie.ui.Event
+import com.mozie.ui.home.HomeActivity
 import com.mozie.ui.ticketPicker.seatpicker.SeatPickerFragment
 import com.mozie.ui.ticketPicker.summary.SummaryFragment
 import com.mozie.ui.ticketPicker.ticketType.TicketTypeFragment
@@ -69,6 +71,9 @@ class TicketPickerActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        if (ticketPaymentViewModel.loading.value == true) {
+            return
+        }
         when (binding.pager.currentItem) {
             0 -> {
                 super.onBackPressed()
@@ -176,7 +181,7 @@ class TicketPickerActivity : AppCompatActivity() {
             resp.getContentIfNotHandledOrReturnNull()?.clientToken?.let { it1 -> showDropInUI(it1) }
         })
         ticketPaymentViewModel.loading.observe(this, {
-            it.getContentIfNotHandledOrReturnNull()?.let { isLoading -> showLoading(isLoading) }
+            showLoading(it)
         })
         ticketPaymentViewModel.paymentResultEvent.observe(this, {
             it.getContentIfNotHandledOrReturnNull()?.let { it1 -> onPaymentResultReceived(it1) }
@@ -379,9 +384,53 @@ class TicketPickerActivity : AppCompatActivity() {
 
     private fun onPaymentResultReceived(successful: Boolean) {
         if (successful) {
-
+            showSuccessDialog()
         } else {
-
+            showErrorDialog()
         }
+    }
+
+    private fun showSuccessDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_payment_success)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        val btnOk: Button = dialog.findViewById(R.id.btnOk)
+        btnOk.setOnClickListener {
+            dialog.dismiss()
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtra(HomeActivity.EXTRA_SHOW_TICKETS, true)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+            finish()
+        }
+
+        dialog.show()
+    }
+
+    private fun showErrorDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_payment_failed)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        val btnOk: Button = dialog.findViewById(R.id.btnOk)
+        btnOk.setOnClickListener {
+            dialog.dismiss()
+            finish()
+        }
+
+        dialog.show()
     }
 }

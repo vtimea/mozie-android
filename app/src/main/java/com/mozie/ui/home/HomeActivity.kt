@@ -22,6 +22,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
+    companion object {
+        val EXTRA_SHOW_TICKETS = "EXTRA_TO_TICKETS"
+    }
+
     private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +34,10 @@ class HomeActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         initView()
+
+        if (intent.hasExtra(EXTRA_SHOW_TICKETS)) {
+            binding.pager.currentItem = 2
+        }
     }
 
     private fun initView() {

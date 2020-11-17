@@ -23,4 +23,6 @@
     <dimen name="image_menu_item_vertical_padding">10dp</dimen>
     <dimen name="seat_view_size">30dp</dimen>
     <dimen name="seat_view_corner_radius">5dp</dimen>
+
+    <dimen name="dialog_image_size">150dp</dimen>
 </resources>
