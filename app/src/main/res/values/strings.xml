@@ -71,4 +71,5 @@
     <string name="title_sum">Összesen:</string>
     <string name="price_huf">%1$d Ft</string>
     <string name="quantity">%1$d db</string>
+    <string name="error_braintree">Hiba történt fizetés közben.</string>
 </resources>

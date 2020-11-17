@@ -139,6 +139,9 @@ class TicketPickerActivity : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
+        binding.loadingLayout.setOnClickListener {
+            // do nothing
+        }
     }
 
     private fun initObservers() {
@@ -170,7 +173,13 @@ class TicketPickerActivity : AppCompatActivity() {
             }
         })
         ticketPaymentViewModel.showDropInUI.observe(this, { resp ->
-            resp.clientToken?.let { it1 -> showDropInUI(it1) }
+            resp.getContentIfNotHandledOrReturnNull()?.clientToken?.let { it1 -> showDropInUI(it1) }
+        })
+        ticketPaymentViewModel.loading.observe(this, {
+            it.getContentIfNotHandledOrReturnNull()?.let { isLoading -> showLoading(isLoading) }
+        })
+        ticketPaymentViewModel.paymentResultEvent.observe(this, {
+            it.getContentIfNotHandledOrReturnNull()?.let { it1 -> onPaymentResultReceived(it1) }
         })
     }
 
@@ -338,21 +347,41 @@ class TicketPickerActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_DROPIN && data != null) {
+        if (requestCode == REQUEST_CODE_DROPIN) {
+            if (data == null) {
+                ticketPaymentViewModel.onDropInResultCanceled()
+                return
+            }
             when (resultCode) {
                 RESULT_OK -> {
                     val result: DropInResult =
                         data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT)!!
-                    ticketPaymentViewModel.sendNonce(result.paymentMethodNonce!!) //todo
+                    ticketPaymentViewModel.onDropInResultOK(result)
                 }
                 RESULT_CANCELED -> {
-                    // the user canceled
+                    ticketPaymentViewModel.onDropInResultCanceled()
                 }
                 else -> {
-                    // handle errors here, an exception may be available in todo
                     val error = data.getSerializableExtra(DropInActivity.EXTRA_ERROR) as Exception
+                    ticketPaymentViewModel.onDropInResultError(error)
                 }
             }
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.loadingLayout.visibility = View.VISIBLE
+        } else {
+            binding.loadingLayout.visibility = View.GONE
+        }
+    }
+
+    private fun onPaymentResultReceived(successful: Boolean) {
+        if (successful) {
+
+        } else {
+
         }
     }
 }
