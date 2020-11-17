@@ -12,6 +12,7 @@ import com.mozie.data.network.model.tickets.PaymentResult
 import com.mozie.data.network.model.tickets.ResponseClientToken
 import com.mozie.data.network.model.tickets.TicketOrder
 import com.mozie.data.network.model.tickets.TicketType
+import com.mozie.data.network.model.userTickets.UserTicket
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -67,4 +68,7 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Body paymentResult: PaymentResult
     ): Observable<Boolean>
+
+    @GET("/api/user/tickets")
+    fun getUserTickets(@Header("Authorization") token: String): Observable<Map<Int, UserTicket>>
 }

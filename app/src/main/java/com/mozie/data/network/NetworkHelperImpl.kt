@@ -12,6 +12,7 @@ import com.mozie.data.network.model.tickets.PaymentResult
 import com.mozie.data.network.model.tickets.ResponseClientToken
 import com.mozie.data.network.model.tickets.TicketOrder
 import com.mozie.data.network.model.tickets.TicketType
+import com.mozie.data.network.model.userTickets.UserTicket
 import com.mozie.data.network.utils.Callback
 import com.mozie.data.network.utils.DefaultObserver
 import com.mozie.data.network.utils.NetworkingUtils
@@ -142,6 +143,18 @@ class NetworkHelperImpl @Inject constructor() : NetworkHelper {
     ): Disposable {
         val observer = DefaultObserver(callback)
         apiService.sendNonce(accessToken, paymentResult)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(observer)
+        return observer.disposable!!
+    }
+
+    override fun getUserTickers(
+        accessToken: String,
+        callback: Callback<Map<Int, UserTicket>>
+    ): Disposable {
+        val observer = DefaultObserver(callback)
+        apiService.getUserTickets(accessToken)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(observer)

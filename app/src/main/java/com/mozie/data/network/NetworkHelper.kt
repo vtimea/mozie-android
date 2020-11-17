@@ -12,6 +12,7 @@ import com.mozie.data.network.model.tickets.PaymentResult
 import com.mozie.data.network.model.tickets.ResponseClientToken
 import com.mozie.data.network.model.tickets.TicketOrder
 import com.mozie.data.network.model.tickets.TicketType
+import com.mozie.data.network.model.userTickets.UserTicket
 import com.mozie.data.network.utils.Callback
 import io.reactivex.disposables.Disposable
 
@@ -63,5 +64,10 @@ interface NetworkHelper {
         accessToken: String,
         paymentResult: PaymentResult,
         callback: Callback<Boolean>
+    ): Disposable
+
+    fun getUserTickers(
+        accessToken: String,
+        callback: Callback<Map<Int, UserTicket>>
     ): Disposable
 }
