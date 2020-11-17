@@ -104,4 +104,7 @@ dependencies {
 
     // Braintree drop-in UI
     implementation 'com.braintreepayments.api:drop-in:4.6.0'
+
+    // Dots indicator
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3'
 }

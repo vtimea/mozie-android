@@ -3,7 +3,7 @@ package com.mozie.data.network.model.userTickets
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class TicketInfoDto {
+class TicketInfo {
     @SerializedName("ticketId")
     @Expose
     var ticketId = 0

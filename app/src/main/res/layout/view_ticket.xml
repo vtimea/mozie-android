@@ -76,8 +76,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/date_title"
+                android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_between_text"
-                android:paddingTop="@dimen/margin_medium"
                 android:text="@string/price_title"
                 android:textSize="@dimen/text_size_small" />
 
@@ -86,8 +86,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/date_title"
+                android:layout_marginTop="@dimen/margin_small"
                 android:layout_toEndOf="@id/type_title"
-                android:paddingTop="@dimen/margin_medium"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/text_size_small"
                 tools:text="1420 Ft" />
@@ -120,6 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/quantity_title"
+                android:layout_marginTop="@dimen/margin_small"
                 android:divider="@drawable/divider"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/margin_medium"

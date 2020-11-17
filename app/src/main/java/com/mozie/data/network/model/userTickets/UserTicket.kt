@@ -26,5 +26,5 @@ class UserTicket {
 
     @SerializedName("tickets")
     @Expose
-    var tickets: List<TicketInfoDto>? = null
+    var tickets: List<TicketInfo>? = null
 }

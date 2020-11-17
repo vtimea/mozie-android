@@ -1,19 +1,24 @@
 package com.mozie.ui.tabTickets
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mozie.R
 import com.mozie.databinding.FragmentTicketsBinding
+import com.mozie.ui.tabTickets.OpenTicketFragment.Companion.KEY_SCREENING_ID
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
-class TicketsFragment : Fragment() {
-    private val viewModel: TicketsViewModel by viewModels()
+class TicketsFragment : Fragment(), ItemSelectionListener {
+    private lateinit var viewModel: TicketsViewModel
     private lateinit var binding: FragmentTicketsBinding
+    private val mOpenTicketFragment: OpenTicketFragment = OpenTicketFragment.newInstance()
 
     companion object {
         fun newInstance() = TicketsFragment()
@@ -34,6 +39,11 @@ class TicketsFragment : Fragment() {
         initObservers()
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        viewModel = ViewModelProvider(requireActivity()).get(TicketsViewModel::class.java)
+    }
+
     private fun initViews() {
         binding.rvTickets.layoutManager = LinearLayoutManager(requireContext())
     }
@@ -47,12 +57,15 @@ class TicketsFragment : Fragment() {
             } else {
                 binding.rvTickets.visibility = View.VISIBLE
                 binding.emptyLayout.visibility = View.GONE
-                binding.rvTickets.adapter = AdapterTicketsList(it)
+                val adapter = AdapterTicketsList(it)
+                adapter.itemSelectionListener = this
+                binding.rvTickets.adapter = adapter
             }
         })
     }
 
     override fun onResume() {
+        closeTicketIfOpen()
         super.onResume()
         showLoading(true)
         viewModel.getTickets()
@@ -69,5 +82,21 @@ class TicketsFragment : Fragment() {
             binding.rvTickets.visibility = View.VISIBLE
 
         }
+    }
+
+    private fun closeTicketIfOpen() {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .remove(mOpenTicketFragment)
+            .commit()
+    }
+
+    override fun onItemSelected(itemId: Int) {
+        val bundle = Bundle()
+        bundle.putInt(KEY_SCREENING_ID, itemId)
+        mOpenTicketFragment.arguments = bundle
+        requireActivity().supportFragmentManager.beginTransaction()
+            .add(R.id.root, mOpenTicketFragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

@@ -15,6 +15,7 @@ class AdapterTicketsList(
     private val mItems: Map<Int, UserTicket>
 ) : RecyclerView.Adapter<AdapterTicketsList.ItemViewHolder>() {
     private val mKeys: List<Int> = mItems.keys.toList()
+    var itemSelectionListener: ItemSelectionListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_ticket, parent, false)
@@ -26,7 +27,9 @@ class AdapterTicketsList(
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.init(mItems[mKeys[position]]!!)
+        val screeningId = mKeys[position]
+        val ticket = mItems[mKeys[position]]!!
+        holder.init(ticket, screeningId)
     }
 
     inner class ItemViewHolder internal constructor(itemView: View) :
@@ -37,7 +40,7 @@ class AdapterTicketsList(
         private var mCinema: TextView = itemView.findViewById(R.id.cinema)
         private var mCount: TextView = itemView.findViewById(R.id.item_count)
 
-        fun init(item: UserTicket) {
+        fun init(item: UserTicket, screeningId: Int) {
             Picasso.get().load(item.moviePosterUrl).into(mImage)
             mTitle.text = item.movieTitle
 
@@ -53,7 +56,7 @@ class AdapterTicketsList(
             mCinema.text = item.cinemaName
             mCount.text = itemView.resources.getString(R.string.quantity, item.tickets?.size)
             itemView.setOnClickListener {
-                // TODO
+                itemSelectionListener?.onItemSelected(screeningId)
             }
         }
     }
