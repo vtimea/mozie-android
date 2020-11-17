@@ -20,7 +20,6 @@ class MoviesViewModel @ViewModelInject constructor(
 ) :
     BaseViewModel() {
 
-    val moviesRecommended: LiveData<List<FeaturedMovie>> by this::mMoviesRecommended
     val moviesNow: LiveData<List<FeaturedMovie>> by this::mMoviesNow
     val moviesSoon: LiveData<List<FeaturedMovie>> by this::mMoviesSoon
     val networkError: LiveData<Event<String>> by this::mNetworkError
@@ -28,7 +27,6 @@ class MoviesViewModel @ViewModelInject constructor(
 
     private val resources: Resources = context.resources
 
-    private val mMoviesRecommended = MutableLiveData<List<FeaturedMovie>>()
     private val mMoviesNow = MutableLiveData<List<FeaturedMovie>>()
     private val mMoviesSoon = MutableLiveData<List<FeaturedMovie>>()
     private val mNetworkError = MutableLiveData<Event<String>>()
@@ -41,7 +39,6 @@ class MoviesViewModel @ViewModelInject constructor(
                 token,
                 object : Callback<MoviesResponse>() {
                     override fun returnResult(t: MoviesResponse) {
-                        mMoviesRecommended.value = t.recommended ?: mutableListOf()
                         mMoviesNow.value = t.now ?: mutableListOf()
                         mMoviesSoon.value = t.soon ?: mutableListOf()
                     }

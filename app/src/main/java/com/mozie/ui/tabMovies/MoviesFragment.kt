@@ -64,8 +64,6 @@ class MoviesFragment : Fragment(), ItemClickListener<FeaturedMovie> {
     }
 
     private fun initViews() {
-        binding.rvRecommended.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.rvSoon.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.rvNow.layoutManager = GridLayoutManager(context, 2)
@@ -75,9 +73,6 @@ class MoviesFragment : Fragment(), ItemClickListener<FeaturedMovie> {
     }
 
     private fun initObservers() {
-        viewModel.moviesRecommended.observe(viewLifecycleOwner, { movies ->
-            handleMovieRecommendations(movies)
-        })
         viewModel.moviesNow.observe(viewLifecycleOwner, { movies ->
             handleMoviesNow(movies)
         })
@@ -117,18 +112,10 @@ class MoviesFragment : Fragment(), ItemClickListener<FeaturedMovie> {
 
     private fun loadMovies() {
         if (viewModel.moviesNow.value.isNullOrEmpty()) {
-            shimmer(true, binding.shimmerRecommended)
             shimmer(true, binding.shimmerSoon)
             shimmer(true, binding.shimmerNow)
         }
         viewModel.getMovies()
-    }
-
-    private fun handleMovieRecommendations(movies: List<FeaturedMovie>) {
-        binding.swipeRefresh.isRefreshing = false
-        binding.rvRecommended.adapter = RvAdapter(movies, this)
-        showMovieLayout(movies.isEmpty(), binding.tvRecommended, binding.rvRecommended)
-        shimmer(false, binding.shimmerRecommended)
     }
 
     private fun handleMoviesNow(movies: List<FeaturedMovie>) {
