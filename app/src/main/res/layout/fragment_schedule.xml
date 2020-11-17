@@ -32,7 +32,7 @@
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintTop_toBottomOf="@id/tabLayout">
 
         <ImageView
             android:layout_width="@dimen/schedule_poster_height"
@@ -47,6 +47,34 @@
             android:layout_marginVertical="@dimen/margin_large"
             android:gravity="center"
             android:text="@string/empty_cinema_text"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/emptySchedule"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout">
+
+        <ImageView
+            android:layout_width="@dimen/schedule_poster_height"
+            android:layout_height="@dimen/schedule_poster_height"
+            android:src="@drawable/ic_popcorn" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/margin_large"
+            android:layout_marginVertical="@dimen/margin_large"
+            android:gravity="center"
+            android:text="@string/empty_schedule_text"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_medium" />
 

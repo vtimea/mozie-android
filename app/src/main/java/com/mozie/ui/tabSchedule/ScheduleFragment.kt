@@ -95,7 +95,7 @@ class ScheduleFragment : Fragment(), MovieClickListener {
 
     private fun loadScreenings(screenings: Map<ScheduleMovie, Map<String, List<ScheduleScreening>>>) {
         binding.rvScreenings.adapter = RvAdapter(screenings, this)
-        showListView()
+        showListView(screenings.isEmpty())
     }
 
     private fun loadTabs(tabs: List<Pair<String, DateTime>>) {
@@ -131,6 +131,7 @@ class ScheduleFragment : Fragment(), MovieClickListener {
         binding.emptyLayout.visibility = View.VISIBLE
         binding.tabLayout.visibility = View.GONE
         binding.rvScreenings.visibility = View.GONE
+        binding.emptySchedule.visibility = View.GONE
         binding.progressBar.visibility = View.GONE
     }
 
@@ -138,6 +139,7 @@ class ScheduleFragment : Fragment(), MovieClickListener {
         binding.emptyLayout.visibility = View.GONE
         binding.tabLayout.visibility = View.GONE
         binding.rvScreenings.visibility = View.GONE
+        binding.emptySchedule.visibility = View.GONE
         binding.progressBar.visibility = View.VISIBLE
     }
 
@@ -145,13 +147,19 @@ class ScheduleFragment : Fragment(), MovieClickListener {
         binding.emptyLayout.visibility = View.GONE
         binding.tabLayout.visibility = View.VISIBLE
         binding.rvScreenings.visibility = View.GONE
+        binding.emptySchedule.visibility = View.GONE
         binding.progressBar.visibility = View.VISIBLE
     }
 
-    private fun showListView() {
+    private fun showListView(isEmpty: Boolean) {
         binding.emptyLayout.visibility = View.GONE
         binding.tabLayout.visibility = View.VISIBLE
         binding.rvScreenings.visibility = View.VISIBLE
+        if (isEmpty) {
+            binding.emptySchedule.visibility = View.VISIBLE
+        } else {
+            binding.emptySchedule.visibility = View.GONE
+        }
         binding.progressBar.visibility = View.GONE
     }
 

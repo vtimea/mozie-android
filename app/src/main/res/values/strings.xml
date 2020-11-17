@@ -26,6 +26,7 @@
     <string name="toolbar_title_movies">Filmek</string>
 
     <!-- Schedule tab / Ticket picker -->
+    <string name="empty_schedule_text">Ezen a napon már nincs több vetítés.</string>
     <string name="empty_cinema_text">A műsor megtekintéséhez kérlek válassz ki felül egy mozit.</string>
     <string name="cinema_spinner_empty">Válassz mozit…</string>
     <string-array name="cinema_spinner_empty">
