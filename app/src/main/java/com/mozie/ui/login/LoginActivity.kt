@@ -16,12 +16,17 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
+    companion object {
+        const val EXTRA_LOGOUT = "extra_logout"
+    }
+
     private val callbackManager: CallbackManager = CallbackManager.Factory.create()
     private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        updateLoginStatus()
         initObservers()
 
         LoginManager.getInstance().registerCallback(callbackManager,
@@ -48,6 +53,12 @@ class LoginActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
+    private fun updateLoginStatus() {
+        if (intent.hasExtra(EXTRA_LOGOUT)) {
+            handleLoginError(getString(R.string.msg_session_expired))
+        }
+    }
+
     private fun initObservers() {
         viewModel.loginError.observe(this, { event ->
             event?.getContentIfNotHandledOrReturnNull()?.let {
@@ -71,7 +82,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun handleLoginError(message: String) {
+        viewModel.logout()
         LoginManager.getInstance().logOut()
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onBackPressed() {
+        finishAffinity()
+        finish()
     }
 }

@@ -87,4 +87,5 @@
     <!--    User tickets    -->
     <string name="title_my_tickets">Jegyeim</string>
     <string name="empty_text_user_tickets">Még nincsenek jegyeid.</string>
+    <string name="msg_session_expired">Lejárt a session.</string>
 </resources>

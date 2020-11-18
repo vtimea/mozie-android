@@ -42,7 +42,7 @@ class PrefsHelperImpl @Inject constructor(@ApplicationContext context: Context) 
             .apply()
     }
 
-    override fun clearAccessToken() {
+    override fun logout() {
         mPreferences.edit().clear().apply()
     }
 }

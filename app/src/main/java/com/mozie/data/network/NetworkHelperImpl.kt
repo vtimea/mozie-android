@@ -1,5 +1,6 @@
 package com.mozie.data.network
 
+import android.content.Context
 import com.mozie.data.network.model.cinemas.ScheduledScreening
 import com.mozie.data.network.model.cinemas.Screening
 import com.mozie.data.network.model.cinemas.ScreeningRoom
@@ -16,6 +17,7 @@ import com.mozie.data.network.model.userTickets.UserTicket
 import com.mozie.data.network.utils.Callback
 import com.mozie.data.network.utils.DefaultObserver
 import com.mozie.data.network.utils.NetworkingUtils
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -23,8 +25,9 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 @ActivityRetainedScoped
-class NetworkHelperImpl @Inject constructor() : NetworkHelper {
-    private val apiService: ApiService = NetworkingUtils.getInstance()
+class NetworkHelperImpl @Inject constructor(@ApplicationContext private val context: Context) :
+    NetworkHelper {
+    private val apiService: ApiService = NetworkingUtils.getInstance(context)
 
     override fun login(
         userId: String,

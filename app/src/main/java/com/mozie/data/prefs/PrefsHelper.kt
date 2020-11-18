@@ -9,5 +9,5 @@ interface PrefsHelper {
 
     fun saveAccessToken(token: String, expiration: String, userId: String)
 
-    fun clearAccessToken()
+    fun logout()
 }

@@ -20,7 +20,7 @@ class SplashViewModel @ViewModelInject constructor(
         val accessToken = dataManager.prefsHelper.getAccessToken()
         val expiration = dataManager.prefsHelper.getAccessTokenExpiration()
         if (accessToken == null || expiration == null || DateTime(expiration).isBeforeNow) {
-            dataManager.prefsHelper.clearAccessToken()
+            dataManager.prefsHelper.logout()
             mNavigationEvent.value = Event(Destinations.Login)
         } else {
             mNavigationEvent.value = Event(Destinations.Home)

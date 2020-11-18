@@ -27,7 +27,6 @@ class LoginViewModel @ViewModelInject constructor(
 
     private val resources: Resources = context.resources
 
-
     fun login(userId: String?, accessToken: String?) {
         if (userId == null || accessToken == null) {
             onError(ErrorTypes.FacebookError)
@@ -54,6 +53,10 @@ class LoginViewModel @ViewModelInject constructor(
                     }
                 })
         )
+    }
+
+    fun logout() {
+        dataManager.prefsHelper.logout()
     }
 
     fun onFacebookError() {
