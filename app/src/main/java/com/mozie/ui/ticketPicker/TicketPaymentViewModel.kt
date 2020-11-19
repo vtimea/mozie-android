@@ -86,7 +86,7 @@ class TicketPaymentViewModel @ViewModelInject constructor(
         disposables.add(dataManager.networkHelper.sendNonce(token, paymentResult, object :
             Callback<Boolean>() {
             override fun returnResult(t: Boolean) {
-                Log.i("dl0csh", "PAYMENT SUCCESS = $t")
+                Log.i("r2zzb4", "PAYMENT SUCCESS = $t")
                 onPaymentFinished(t)
             }
 

@@ -1,15 +1,21 @@
 package com.mozie.ui.tabTickets
 
+import android.graphics.Color
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidmads.library.qrgenearator.QRGContents
+import androidmads.library.qrgenearator.QRGEncoder
 import androidx.viewpager.widget.PagerAdapter
+import com.google.zxing.WriterException
 import com.mozie.R
 import com.mozie.data.network.model.userTickets.TicketInfo
 import com.mozie.data.network.model.userTickets.UserTicket
 import com.squareup.picasso.Picasso
 import org.joda.time.DateTime
+
 
 class AdapterOpenTickets(private var mTicketGroup: UserTicket, var mFragment: OpenTicketFragment) :
     PagerAdapter() {
@@ -29,8 +35,8 @@ class AdapterOpenTickets(private var mTicketGroup: UserTicket, var mFragment: Op
         val item = mTickets[position]
         view.findViewById<TextView>(R.id.item_title).text = mTicketGroup.movieTitle
         view.findViewById<TextView>(R.id.cinema_name).text = mTicketGroup.cinemaName
-        view.findViewById<TextView>(R.id.row).text = item.col.toString()
-        view.findViewById<TextView>(R.id.col).text = item.row.toString()
+        view.findViewById<TextView>(R.id.row).text = item.row.toString()
+        view.findViewById<TextView>(R.id.col).text = item.col.toString()
         view.findViewById<TextView>(R.id.room).text = item.room.toString()
 
         val tvDate = view.findViewById<TextView>(R.id.date_info)
@@ -49,6 +55,16 @@ class AdapterOpenTickets(private var mTicketGroup: UserTicket, var mFragment: Op
 
         Picasso.get().load(mTicketGroup.moviePosterUrl)
             .into(view.findViewById<ImageView>(R.id.header_image))
+
+        val qrCode = view.findViewById<ImageView>(R.id.qrcode)
+        val qrgEncoder = QRGEncoder(item.ticketId.toString(), null, QRGContents.Type.TEXT, 500)
+        qrgEncoder.colorBlack = Color.BLACK
+        qrgEncoder.colorWhite = Color.WHITE
+        try {
+            qrCode.setImageBitmap(qrgEncoder.bitmap)
+        } catch (e: WriterException) {
+            Log.v("r2zzb4", e.toString())
+        }
 
         container.addView(view, 0)
         return view
