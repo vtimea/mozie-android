@@ -24,6 +24,7 @@
     <string name="title_actors">Szereplők</string>
     <string name="length_text">%1$d perc</string>
     <string name="toolbar_title_movies">Filmek</string>
+    <string name="share_movie_content">Na ki jön el velem megnézni?\n\n%1$s\n\n%2$s\n%3$s</string>
 
     <!-- Schedule tab / Ticket picker -->
     <string name="empty_schedule_text">Ezen a napon már nincs több vetítés.</string>

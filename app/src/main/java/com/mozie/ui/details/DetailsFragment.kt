@@ -43,6 +43,9 @@ class DetailsFragment : Fragment() {
             intent.putExtra(TicketPickerActivity.EXTRA_MOVIE_TITLE, movie!!.title)
             startActivity(intent)
         }
+        binding.btnShare.setOnClickListener {
+            shareMovie()
+        }
     }
 
     fun loadDetails(movie: MovieDetail) {
@@ -68,5 +71,24 @@ class DetailsFragment : Fragment() {
         } else {
             binding.btnPurchase.visibility = View.GONE
         }
+    }
+
+    private fun shareMovie() {
+        val textToShare =
+            getString(
+                R.string.share_movie_content,
+                movie?.title ?: "",
+                movie?.description ?: "",
+                movie?.posterUrl ?: ""
+            )
+
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, textToShare)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 }
