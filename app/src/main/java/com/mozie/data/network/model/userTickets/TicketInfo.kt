@@ -23,4 +23,8 @@ class TicketInfo {
     @SerializedName("row")
     @Expose
     var row = 0
+
+    @SerializedName("room")
+    @Expose
+    var room = 0
 }

@@ -98,9 +98,19 @@ class SeatPickerFragment : Fragment() {
         binding.gridSeats.removeAllViews()
         binding.gridSeats.columnCount = numCol
         binding.gridSeats.rowCount = numRow
-        for (i in 1..numCol) {
-            for (j in 1..numRow) {
-                val seat: Seat = seats.find { it.col == i && it.row == j }!!
+        for (i in 1..numRow) {
+            for (j in 1..numCol) {
+                val seat: Seat? = seats.find { it.col == j && it.row == i }
+                if (seat == null) {
+                    val view = View(requireContext())
+                    val params =
+                        LinearLayout.LayoutParams(binding.gridSeats.layoutParams as LinearLayout.LayoutParams)
+                    params.width = displayMetrics.widthPixels / numCol
+                    params.height = params.width
+                    view.layoutParams = params
+                    binding.gridSeats.addView(view)
+                    continue
+                }
                 val checkBox = AppCompatCheckBox(requireContext())
                 when (seat.available) {
                     false -> checkBox.isEnabled = false

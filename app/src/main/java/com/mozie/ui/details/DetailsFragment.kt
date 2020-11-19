@@ -63,7 +63,7 @@ class DetailsFragment : Fragment() {
             binding.rvActors.visibility = View.VISIBLE
             binding.rvActors.adapter = ActorsRvAdapter(movie.actors)
         }
-        if (movie.isActive == true) {
+        if (movie.status == MovieDetail.Status.RELEASED) {
             binding.btnPurchase.visibility = View.VISIBLE
         } else {
             binding.btnPurchase.visibility = View.GONE

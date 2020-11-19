@@ -31,6 +31,7 @@ class AdapterOpenTickets(private var mTicketGroup: UserTicket, var mFragment: Op
         view.findViewById<TextView>(R.id.cinema_name).text = mTicketGroup.cinemaName
         view.findViewById<TextView>(R.id.row).text = item.col.toString()
         view.findViewById<TextView>(R.id.col).text = item.row.toString()
+        view.findViewById<TextView>(R.id.room).text = item.room.toString()
 
         val tvDate = view.findViewById<TextView>(R.id.date_info)
         val startTime = DateTime.parse(mTicketGroup.movieStartTime)

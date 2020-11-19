@@ -32,7 +32,18 @@ class MovieDetail {
     @Expose
     val actors: List<Actor>? = null
 
-    @SerializedName("active")
+    @SerializedName("status")
     @Expose
-    val isActive: Boolean? = null
+    val status: Status? = null
+
+    enum class Status {
+        @SerializedName("UNRELEASED")
+        UNRELEASED,
+
+        @SerializedName("RELEASED")
+        RELEASED,
+
+        @SerializedName("ARCHIVED")
+        ARCHIVED
+    }
 }
