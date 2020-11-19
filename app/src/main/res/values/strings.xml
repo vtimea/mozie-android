@@ -88,4 +88,10 @@
     <string name="title_my_tickets">Jegyeim</string>
     <string name="empty_text_user_tickets">Még nincsenek jegyeid.</string>
     <string name="msg_session_expired">Lejárt a session.</string>
+
+    <!--    Profile    -->
+    <string name="logout">Kijelentkezés</string>
+    <string name="name_last_first">%1$s %2$s</string>
+    <string name="name_last_middle_first">%1$s %2$s %3$s</string>
+    <string name="msg_logout_success">Kijelentkeztél.</string>
 </resources>

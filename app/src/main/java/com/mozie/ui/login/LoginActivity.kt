@@ -17,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     companion object {
+        const val EXTRA_SESSION_EXPIRED = "extra_session_expired"
         const val EXTRA_LOGOUT = "extra_logout"
     }
 
@@ -54,8 +55,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun updateLoginStatus() {
-        if (intent.hasExtra(EXTRA_LOGOUT)) {
+        if (intent.hasExtra(EXTRA_SESSION_EXPIRED)) {
             handleLoginError(getString(R.string.msg_session_expired))
+        } else if (intent.hasExtra(EXTRA_LOGOUT)) {
+            handleLoginError(getString(R.string.msg_logout_success))
         }
     }
 
