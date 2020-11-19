@@ -19,6 +19,10 @@ import org.joda.time.DateTime
 
 class AdapterOpenTickets(private var mTicketGroup: UserTicket, var mFragment: OpenTicketFragment) :
     PagerAdapter() {
+    companion object {
+        const val QR_DIMENSION: Int = 500
+    }
+
     private val mTickets: List<TicketInfo> = mTicketGroup.tickets!!
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
@@ -56,12 +60,13 @@ class AdapterOpenTickets(private var mTicketGroup: UserTicket, var mFragment: Op
         Picasso.get().load(mTicketGroup.moviePosterUrl)
             .into(view.findViewById<ImageView>(R.id.header_image))
 
-        val qrCode = view.findViewById<ImageView>(R.id.qrcode)
-        val qrgEncoder = QRGEncoder(item.ticketId.toString(), null, QRGContents.Type.TEXT, 500)
+        val ivQrCode = view.findViewById<ImageView>(R.id.qrcode)
+        val qrgEncoder =
+            QRGEncoder(item.ticketId.toString(), null, QRGContents.Type.TEXT, QR_DIMENSION)
         qrgEncoder.colorBlack = Color.BLACK
         qrgEncoder.colorWhite = Color.WHITE
         try {
-            qrCode.setImageBitmap(qrgEncoder.bitmap)
+            ivQrCode.setImageBitmap(qrgEncoder.bitmap)
         } catch (e: WriterException) {
             Log.v("r2zzb4", e.toString())
         }
