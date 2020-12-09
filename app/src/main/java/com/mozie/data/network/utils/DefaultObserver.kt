@@ -6,7 +6,8 @@ import io.reactivex.disposables.Disposable
 class DefaultObserver<T>(private val callback: Callback<T>) : Observer<T> {
     var disposable: Disposable? = null
 
-    override fun onComplete() { /* do nothing */
+    override fun onComplete() {
+        // do nothing
     }
 
     override fun onSubscribe(d: Disposable) {
