@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Mozie</string>
-    <string name="login_description">Valami szöveg ide arról hogy milyen frankó ez az app és miért kell bejelentkezni ahhoz hogy használd.</string>
+    <string name="login_description">A Mozie alkalmazás segítségével gyorsan és könnyen tájékozódhatsz a mozikban vetített új filmekről, sőt még akár jegyet is vásárolhatsz út közben. Kérlek jelentkezz be az alkalmazás használatához.</string>
     <string name="login_success">Sikeres bejelentkezés.</string>
 
     <!-- Errors -->

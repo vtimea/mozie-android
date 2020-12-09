@@ -39,8 +39,8 @@ class MoviesViewModel @ViewModelInject constructor(
                 token,
                 object : Callback<MoviesResponse>() {
                     override fun returnResult(t: MoviesResponse) {
-                        mMoviesNow.value = t.now ?: mutableListOf()
-                        mMoviesSoon.value = t.soon ?: mutableListOf()
+                        mMoviesNow.value = t.released ?: mutableListOf()
+                        mMoviesSoon.value = t.unreleased ?: mutableListOf()
                     }
 
                     override fun returnError(t: Throwable) {
